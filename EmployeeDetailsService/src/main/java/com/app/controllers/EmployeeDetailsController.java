@@ -33,7 +33,6 @@ import com.app.services.EmployeeDetailsService;
 public class EmployeeDetailsController {
 	
 	@Autowired
-	
 	private EmployeeDetailsService employeeDetailsService;
 	
 

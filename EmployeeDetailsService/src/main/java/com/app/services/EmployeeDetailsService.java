@@ -18,5 +18,6 @@ public interface EmployeeDetailsService {
 	Optional<EmployeeDetails> getEmployeeDetailsById(String id);
 	EmployeeDetails updateEmployeeDetails(String id, EmployeeDetails emp);
 	void deleteEmployeeDetails(String id);
+	List<EmployeeDetails> updateListOfEmployeeDetails(List<EmployeeDetails> empDetails);
 
 }

@@ -48,6 +48,22 @@ public class EmployeeDetailsServiceImpl implements EmployeeDetailsService {
 		return employeeDetailsRepository.save(details);
 		
 	}
+	
+	@Override
+	public List<EmployeeDetails> updateListOfEmployeeDetails(List<EmployeeDetails> empDetailsFrmExternalSystem) {
+		List<EmployeeDetails> empListFrmDb = employeeDetailsRepository.findAll();
+		for(EmployeeDetails empFrmDb: empListFrmDb) {
+			for(EmployeeDetails empFrmSys:empDetailsFrmExternalSystem) {
+				if(empFrmSys.equals(empFrmDb)) {
+					employeeDetailsRepository.delete(empFrmDb);
+				}
+			}
+		}
+		return employeeDetailsRepository.saveAll(empDetailsFrmExternalSystem);
+	}
+	
+	
+	
 
 	@Override
 	public void deleteEmployeeDetails(String id) {
