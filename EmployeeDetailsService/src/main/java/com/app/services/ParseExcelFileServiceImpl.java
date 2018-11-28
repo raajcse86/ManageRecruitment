@@ -99,148 +99,176 @@ public class ParseExcelFileServiceImpl implements ParseExcelFileService {
 			System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
 			Iterator<Sheet> sheetIterator = workbook.sheetIterator();
 			System.out.println("Retrieving Sheets using Iterator");
+
 			while (sheetIterator.hasNext()) {
 				Sheet sheet = sheetIterator.next();
 				System.out.println("=> " + sheet.getSheetName());
-				// Create a DataFormatter to format and get each cell's value as String
-				DataFormatter dataFormatter = new DataFormatter();
-				// 1. You can obtain a rowIterator and columnIterator and iterate over them
-				System.out.println("\n\nIterating over Rows and Columns using Iterator\n");
-				Iterator<Row> rowIterator = sheet.rowIterator();
-				while (rowIterator.hasNext()) {
-					CandidatureDetails details = new CandidatureDetails();
-					Row row = rowIterator.next();
-					// Now let's iterate over the columns of the current row
-					Iterator<Cell> cellIterator = row.cellIterator();
-					while (cellIterator.hasNext()) {
-						Cell cell = cellIterator.next();
-						String cellValue = dataFormatter.formatCellValue(cell);
-						int colIndex = cell.getColumnIndex();
-						System.out.print("cellValue >> " + cellValue + "\t");
-						System.out.print("colIndex >> " + colIndex + "\t");
-						switch (colIndex) {
-						case 1:
-							details.setRoleOfResponsibilities(cellValue);
-							break;
-						case 2:
-							details.setPositionLocation(cellValue);
-							break;
-						case 3:
-							details.setCandidateName(cellValue);
-							break;
-						case 4:
-							details.setContactNo(cellValue);
-							break;
-						case 5:
-							details.setEmailId(cellValue);
-							break;
-						case 6:
-							details.setTotalExperience(cellValue);
-							break;
-						case 7:
-							details.setRelevantExperience(cellValue);
-							break;
-						case 8:
-							details.setNoticePeriod(cellValue);
-							break;
-						case 9:
-							details.setCurrentLocation(cellValue);
-							break;
-						case 10:
-							details.setPreferredLocation(cellValue);
-							break;
-						case 11:
-							details.setModeOfHiring(cellValue);
-							break;
-						case 12:
-							details.setVendorName(cellValue);;
-							break;
-						case 13:
-							details.setProfileSharedDate(convertToDate(cellValue));
-							break;
-						case 14:
-							details.setScreeningStatus(cellValue);
-							break;
-						case 15:
-							details.setScreeningDate(convertToDate(cellValue));
-							break;	
-						case 16:
-							details.setScreeningDoneBy(cellValue);
-							break;
-						
-						case 17:
-							details.setFirstRoundStatus(cellValue);
-							break;
-						case 18:
-							details.setFirstRoundDate(convertToDate(cellValue));
-							break;
-						case 19:
-							details.setFirstRoundTakenBy(cellValue);
-							break;
-						case 20:
-							details.setSecondRoundStatus(cellValue);
-							break;	
-						case 21:
-							details.setSecondRoundDate(convertToDate(cellValue));
-							break;	
-						case 22:
-							details.setSecondRoundTakenBy(cellValue);
-							break;	
-						case 23:
-							details.setFinalRoundStatus(cellValue);
-							break;	
-						case 24:
-							details.setFinalRoundDate(convertToDate(cellValue));
-							break;		
-						case 25:
-							details.setFinalRoundTakenBy(cellValue);
-							break;		
-						case 26:
-							details.setHrOrPnStageRound(cellValue);
-							break;		
-						case 27:
-							details.setHrOrPnStageStatus(cellValue);
-							break;		
-						case 28:
-							details.setHrOrPnStageDate(convertToDate(cellValue));
-							break;
-						
-						case 29:
-							details.setCandidatureStatus(cellValue);
-							break;
-						case 30:
-							details.setOfferRollOutDate(convertToDate(cellValue));
-							break;
-						case 31:
-							details.setJoiningDate(convertToDate(cellValue));
-							break;
-						case 32:
-							details.setJoiningStatus(cellValue);
-							break;
-						case 33:
-							details.setNhrId(cellValue);
-							break;
-						case 34:
-							details.setComments(cellValue);
-							break;
-							
-						case 35:
-							details.setAction(cellValue);
-							break;
-						case 36:
-							details.setClient(cellValue);
-							break;
-						case 37:
-							details.setProfile(cellValue);
-							break;	
-						case 38:
-							details.setLastUpdateDate(convertToDate(cellValue));
-							break;
-							
-						}
+				if (sheet.getSheetName().equalsIgnoreCase("supply")) {
+					int rowIndex = 0;
+					// Create a DataFormatter to format and get each cell's value as String
+					DataFormatter dataFormatter = new DataFormatter();
+					// 1. You can obtain a rowIterator and columnIterator and iterate over them
+					System.out.println("\n\nIterating over Rows and Columns using Iterator\n");
+					Iterator<Row> rowIterator = sheet.rowIterator();
 
+					while (rowIterator.hasNext()) {
+							Row row = rowIterator.next();
+							if (rowIndex != 0) {
+								CandidatureDetails details = new CandidatureDetails();	
+							// Now let's iterate over the columns of the current row
+							Iterator<Cell> cellIterator = row.cellIterator();
+							while (cellIterator.hasNext()) {
+								Cell cell = cellIterator.next();
+								String cellValue = dataFormatter.formatCellValue(cell);
+								int colIndex = cell.getColumnIndex();
+								System.out.print("cellValue >> " + cellValue + "\t");
+								System.out.print("colIndex >> " + colIndex + "\t");
+								switch (colIndex) {
+								case 1:
+									details.setRoleOfResponsibilities(cellValue);
+									break;
+								case 2:
+									details.setPositionLocation(cellValue);
+									break;
+								case 3:
+									details.setCandidateName(cellValue);
+									break;
+								case 4:
+									details.setContactNo(cellValue);
+									break;
+								case 5:
+									details.setEmailId(cellValue);
+									break;
+								case 6:
+									details.setTotalExperience(cellValue);
+									break;
+								case 7:
+									details.setRelevantExperience(cellValue);
+									break;
+								case 8:
+									details.setNoticePeriod(cellValue);
+									break;
+								case 9:
+									details.setCurrentLocation(cellValue);
+									break;
+								case 10:
+									details.setPreferredLocation(cellValue);
+									break;
+								case 11:
+									details.setModeOfHiring(cellValue);
+									break;
+								case 12:
+									details.setVendorName(cellValue);
+									;
+									break;
+								case 13:
+									if(cellValue != null && !cellValue.isEmpty()) {
+										details.setProfileSharedDate(cellValue);
+										break;	
+									}
+								case 14:
+									details.setScreeningStatus(cellValue);
+									break;
+								case 15:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setScreeningDate(cellValue);
+									break;
+									}
+								case 16:
+									details.setScreeningDoneBy(cellValue);
+									break;
+
+								case 17:
+									details.setFirstRoundStatus(cellValue);
+									break;
+								case 18:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setFirstRoundDate(cellValue);
+									break;
+									}
+								case 19:
+									details.setFirstRoundTakenBy(cellValue);
+									break;
+								case 20:
+									details.setSecondRoundStatus(cellValue);
+									break;
+								case 21:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setSecondRoundDate(cellValue);
+									break;
+									}
+								case 22:
+									details.setSecondRoundTakenBy(cellValue);
+									break;
+								case 23:
+									details.setFinalRoundStatus(cellValue);
+									break;
+								case 24:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setFinalRoundDate(cellValue);
+									break;
+									}
+								case 25:
+									details.setFinalRoundTakenBy(cellValue);
+									break;
+								case 26:
+									details.setHrOrPnStageRound(cellValue);
+									break;
+								case 27:
+									details.setHrOrPnStageStatus(cellValue);
+									break;
+								case 28:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setHrOrPnStageDate(cellValue);
+									break;
+									}
+
+								case 29:
+									details.setCandidatureStatus(cellValue);
+									break;
+								case 30:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setOfferRollOutDate(cellValue);
+									break;
+									}
+								case 31:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setJoiningDate(cellValue);
+									break;
+									}
+								case 32:
+									details.setJoiningStatus(cellValue);
+									break;
+								case 33:
+									details.setNhrId(cellValue);
+									break;
+								case 34:
+									details.setComments(cellValue);
+									break;
+
+								case 35:
+									details.setAction(cellValue);
+									break;
+								case 36:
+									details.setClient(cellValue);
+									break;
+								case 37:
+									details.setProfile(cellValue);
+									break;
+								case 38:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setLastUpdateDate(cellValue);
+									break;
+									}
+
+								}
+
+							}
+							listEmp.add(details);
+						}
+						rowIndex++;
 					}
-					listEmp.add(details);
+
 				}
 			}
 			// Closing the workbook
@@ -257,13 +285,11 @@ public class ParseExcelFileServiceImpl implements ParseExcelFileService {
 		}
 		return listEmp;
 	}
-	
-	
+
 	public Date convertToDate(String s) throws ParseException {
-		DateFormat formatter = new SimpleDateFormat("DD-MM-YYYY"); 
-		Date date = (Date)formatter.parse(s);
+		DateFormat formatter = new SimpleDateFormat("MM/DD/YY");
+		Date date = (Date) formatter.parse(s);
 		return date;
 	}
-	
 
 }

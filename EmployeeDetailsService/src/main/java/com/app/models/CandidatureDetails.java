@@ -3,27 +3,28 @@
  */
 package com.app.models;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Rajasekar.Murugesan
  *
  */
+@Document(collection = "CandidatureDetails")
+@JsonIgnoreProperties(value = { "createdAt" }, allowGetters = true)
 public class CandidatureDetails {
 
 	@Id
 	private String id;
 	private String roleOfResponsibilities;
 	private String positionLocation;
-	@NotBlank
 	private String candidateName;
 	private String contactNo;
-	@Indexed(unique = true)
 	private String emailId;
 	private String totalExperience;
 	private String relevantExperience;
@@ -32,32 +33,32 @@ public class CandidatureDetails {
 	private String preferredLocation;
 	private String modeOfHiring;
 	private String vendorName;
-	private Date profileSharedDate;
+	private String profileSharedDate;
 	private String screeningStatus;
-	private Date screeningDate;
+	private String screeningDate;
 	private String screeningDoneBy;
 	private String firstRoundStatus;
-	private Date firstRoundDate;
+	private String firstRoundDate;
 	private String firstRoundTakenBy;
 	private String secondRoundStatus;
-	private Date secondRoundDate;
+	private String secondRoundDate;
 	private String secondRoundTakenBy;
 	private String finalRoundStatus;
-	private Date finalRoundDate;
+	private String finalRoundDate;
 	private String finalRoundTakenBy;
 	private String hrOrPnStageRound;
 	private String hrOrPnStageStatus;
-	private Date hrOrPnStageDate;
+	private String hrOrPnStageDate;
 	private String candidatureStatus;
-	private Date offerRollOutDate;
-	private Date joiningDate;
+	private String offerRollOutDate;
+	private String joiningDate;
 	private String joiningStatus;
 	private String nhrId;
 	private String comments;
 	private String action;
 	private String client;
 	private String profile;
-	private Date lastUpdateDate;
+	private String lastUpdateDate;
 	
 	/**
 	 * @return the roleOfResponsibilities
@@ -206,13 +207,13 @@ public class CandidatureDetails {
 	/**
 	 * @return the profileSharedDate
 	 */
-	public Date getProfileSharedDate() {
+	public String getProfileSharedDate() {
 		return profileSharedDate;
 	}
 	/**
 	 * @param profileSharedDate the profileSharedDate to set
 	 */
-	public void setProfileSharedDate(Date profileSharedDate) {
+	public void setProfileSharedDate(String profileSharedDate) {
 		this.profileSharedDate = profileSharedDate;
 	}
 	/**
@@ -230,13 +231,13 @@ public class CandidatureDetails {
 	/**
 	 * @return the screeningDate
 	 */
-	public Date getScreeningDate() {
+	public String getScreeningDate() {
 		return screeningDate;
 	}
 	/**
 	 * @param screeningDate the screeningDate to set
 	 */
-	public void setScreeningDate(Date screeningDate) {
+	public void setScreeningDate(String screeningDate) {
 		this.screeningDate = screeningDate;
 	}
 	/**
@@ -266,13 +267,13 @@ public class CandidatureDetails {
 	/**
 	 * @return the firstRoundDate
 	 */
-	public Date getFirstRoundDate() {
+	public String getFirstRoundDate() {
 		return firstRoundDate;
 	}
 	/**
 	 * @param firstRoundDate the firstRoundDate to set
 	 */
-	public void setFirstRoundDate(Date firstRoundDate) {
+	public void setFirstRoundDate(String firstRoundDate) {
 		this.firstRoundDate = firstRoundDate;
 	}
 	/**
@@ -302,13 +303,13 @@ public class CandidatureDetails {
 	/**
 	 * @return the secondRoundDate
 	 */
-	public Date getSecondRoundDate() {
+	public String getSecondRoundDate() {
 		return secondRoundDate;
 	}
 	/**
 	 * @param secondRoundDate the secondRoundDate to set
 	 */
-	public void setSecondRoundDate(Date secondRoundDate) {
+	public void setSecondRoundDate(String secondRoundDate) {
 		this.secondRoundDate = secondRoundDate;
 	}
 	/**
@@ -338,13 +339,13 @@ public class CandidatureDetails {
 	/**
 	 * @return the finalRoundDate
 	 */
-	public Date getFinalRoundDate() {
+	public String getFinalRoundDate() {
 		return finalRoundDate;
 	}
 	/**
 	 * @param finalRoundDate the finalRoundDate to set
 	 */
-	public void setFinalRoundDate(Date finalRoundDate) {
+	public void setFinalRoundDate(String finalRoundDate) {
 		this.finalRoundDate = finalRoundDate;
 	}
 	/**
@@ -386,13 +387,13 @@ public class CandidatureDetails {
 	/**
 	 * @return the hrOrPnStageDate
 	 */
-	public Date getHrOrPnStageDate() {
+	public String getHrOrPnStageDate() {
 		return hrOrPnStageDate;
 	}
 	/**
 	 * @param hrOrPnStageDate the hrOrPnStageDate to set
 	 */
-	public void setHrOrPnStageDate(Date hrOrPnStageDate) {
+	public void setHrOrPnStageDate(String hrOrPnStageDate) {
 		this.hrOrPnStageDate = hrOrPnStageDate;
 	}
 	/**
@@ -410,25 +411,25 @@ public class CandidatureDetails {
 	/**
 	 * @return the offerRollOutDate
 	 */
-	public Date getOfferRollOutDate() {
+	public String getOfferRollOutDate() {
 		return offerRollOutDate;
 	}
 	/**
 	 * @param offerRollOutDate the offerRollOutDate to set
 	 */
-	public void setOfferRollOutDate(Date offerRollOutDate) {
+	public void setOfferRollOutDate(String offerRollOutDate) {
 		this.offerRollOutDate = offerRollOutDate;
 	}
 	/**
 	 * @return the joiningDate
 	 */
-	public Date getJoiningDate() {
+	public String getJoiningDate() {
 		return joiningDate;
 	}
 	/**
 	 * @param joiningDate the joiningDate to set
 	 */
-	public void setJoiningDate(Date joiningDate) {
+	public void setJoiningDate(String joiningDate) {
 		this.joiningDate = joiningDate;
 	}
 	/**
@@ -506,13 +507,13 @@ public class CandidatureDetails {
 	/**
 	 * @return the lastUpdateDate
 	 */
-	public Date getLastUpdateDate() {
+	public String getLastUpdateDate() {
 		return lastUpdateDate;
 	}
 	/**
 	 * @param lastUpdateDate the lastUpdateDate to set
 	 */
-	public void setLastUpdateDate(Date lastUpdateDate) {
+	public void setLastUpdateDate(String lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 	/**
