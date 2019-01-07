@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.app.models.CandidatureDetails;
 import com.app.models.EmployeeDetails;
+import com.app.repositories.CandidatureDetailsRepository;
+import com.app.services.CandidatureDetailsService;
 import com.app.services.EmployeeDetailsService;
 import com.app.services.ParseExcelFileService;
 
@@ -30,6 +33,9 @@ public class UploadFileController {
 	@Autowired
 	private EmployeeDetailsService employeeDetailsService;
 	
+	@Autowired
+	private CandidatureDetailsService candidatureDetailsService;
+	
 	 /*
      * MultipartFile Upload
      */
@@ -39,6 +45,8 @@ public class UploadFileController {
     		
     		List<EmployeeDetails> empList = parseExcelFileService.readFile(file);
     		employeeDetailsService.updateListOfEmployeeDetails(empList);
+    		List<CandidatureDetails> candidateList = parseExcelFileService.readExcelFile(file);
+    		candidatureDetailsService.updateListOfCandidatureDetails(candidateList);
     		
     		// save file to PostgreSQL
 	    	//FileModel filemode = new FileModel(file.getOriginalFilename(), file.getContentType(), file.getBytes());
