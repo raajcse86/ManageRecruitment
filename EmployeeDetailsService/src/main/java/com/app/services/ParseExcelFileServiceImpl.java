@@ -59,20 +59,14 @@ public class ParseExcelFileServiceImpl implements ParseExcelFileService {
 						Cell cell = cellIterator.next();
 						String cellValue = dataFormatter.formatCellValue(cell);
 						int colIndex = cell.getColumnIndex();
-						System.out.print("cellValue >> " + cellValue + "\t");
-						System.out.print("colIndex >> " + colIndex + "\t");
-						switch (colIndex) {
-						case 1:
-							details.setName(cellValue);
-							break;
-						case 2:
-							details.setEmail(cellValue);
-						case 3:
-							details.setStatus(cellValue);
-						}
-
+						//System.out.print("cellValue >> " + cellValue + "\t");
+						//System.out.print("colIndex >> " + colIndex + "\t");
+						/*
+						 * switch (colIndex) { case 1: details.setName(cellValue); break; case 2:
+						 * details.setEmail(cellValue); case 3: details.setStatus(cellValue); }
+						 */
 					}
-					listEmp.add(details);
+					//listEmp.add(details);
 				}
 			}
 			// Closing the workbook
@@ -128,139 +122,134 @@ public class ParseExcelFileServiceImpl implements ParseExcelFileService {
 									details.setRoleOfResponsibilities(cellValue);
 									break;
 								case 2:
-									details.setPositionLocation(cellValue);
-									break;
-								case 3:
 									details.setCandidateName(cellValue);
 									break;
-								case 4:
+								case 3:
 									details.setContactNo(cellValue);
 									break;
-								case 5:
+								case 4:
 									details.setEmailId(cellValue);
 									break;
-								case 6:
+								case 5:
 									details.setTotalExperience(cellValue);
 									break;
-								case 7:
+								case 6:
 									details.setRelevantExperience(cellValue);
 									break;
-								case 8:
+								case 7:
 									details.setNoticePeriod(cellValue);
 									break;
+								case 8:
+									details.setCtc(cellValue);
+									break;
 								case 9:
-									details.setCurrentLocation(cellValue);
+									details.setExpectedCTC(cellValue);
 									break;
 								case 10:
-									details.setPreferredLocation(cellValue);
+									details.setCurrentLocation(cellValue);
 									break;
 								case 11:
-									details.setModeOfHiring(cellValue);
+									details.setPreferredLocation(cellValue);
 									break;
 								case 12:
-									details.setVendorName(cellValue);
-									;
+									details.setPositionLocation(cellValue);
 									break;
 								case 13:
+									details.setModeOfHiring(cellValue);
+									break;
+								case 14:
+									details.setSource(cellValue);
+									break;
+								case 15:
 									if(cellValue != null && !cellValue.isEmpty()) {
 										details.setProfileSharedDate(cellValue);
 										break;	
 									}
-								case 14:
+								case 16:
 									details.setScreeningStatus(cellValue);
 									break;
-								case 15:
+								case 17:
 									if(cellValue != null && !cellValue.isEmpty()) {
 									details.setScreeningDate(cellValue);
 									break;
 									}
-								case 16:
+								case 18:
 									details.setScreeningDoneBy(cellValue);
 									break;
 
-								case 17:
+								case 19:
 									details.setFirstRoundStatus(cellValue);
 									break;
-								case 18:
+								case 20:
 									if(cellValue != null && !cellValue.isEmpty()) {
 									details.setFirstRoundDate(cellValue);
 									break;
 									}
-								case 19:
+								case 21:
 									details.setFirstRoundTakenBy(cellValue);
 									break;
-								case 20:
+								case 22:
 									details.setSecondRoundStatus(cellValue);
 									break;
-								case 21:
+								case 23:
 									if(cellValue != null && !cellValue.isEmpty()) {
 									details.setSecondRoundDate(cellValue);
 									break;
 									}
-								case 22:
+								case 24:
 									details.setSecondRoundTakenBy(cellValue);
 									break;
-								case 23:
+								case 25:
 									details.setFinalRoundStatus(cellValue);
 									break;
-								case 24:
+								case 26:
 									if(cellValue != null && !cellValue.isEmpty()) {
 									details.setFinalRoundDate(cellValue);
 									break;
 									}
-								case 25:
+								case 27:
 									details.setFinalRoundTakenBy(cellValue);
 									break;
-								case 26:
+								case 28:
 									details.setHrOrPnStageRound(cellValue);
 									break;
-								case 27:
+								case 29:
 									details.setHrOrPnStageStatus(cellValue);
 									break;
-								case 28:
+								case 30:
 									if(cellValue != null && !cellValue.isEmpty()) {
 									details.setHrOrPnStageDate(cellValue);
 									break;
 									}
 
-								case 29:
-									details.setCandidatureStatus(cellValue);
-									break;
-								case 30:
-									if(cellValue != null && !cellValue.isEmpty()) {
-									details.setOfferRollOutDate(cellValue);
-									break;
-									}
 								case 31:
-									if(cellValue != null && !cellValue.isEmpty()) {
-									details.setJoiningDate(cellValue);
+									details.setFinalStatus(cellValue);
 									break;
-									}
 								case 32:
-									details.setJoiningStatus(cellValue);
+									details.setStatus(cellValue);
 									break;
 								case 33:
-									details.setNhrId(cellValue);
+									details.setDescription(cellValue);
 									break;
 								case 34:
-									details.setComments(cellValue);
+									details.setActionPending(cellValue);
 									break;
-
 								case 35:
-									details.setAction(cellValue);
-									break;
-								case 36:
 									details.setClient(cellValue);
 									break;
-								case 37:
-									details.setProfile(cellValue);
+								case 36:
+									details.setProfileStatus(cellValue);
 									break;
-								case 38:
+								case 37:
 									if(cellValue != null && !cellValue.isEmpty()) {
-									details.setLastUpdateDate(cellValue);
+									details.setStatusUpdatedDate(cellValue);
 									break;
 									}
-
+								case 38:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setExpectedJoiningDate(cellValue);
+									break;
+									}	
 								}
 
 							}
