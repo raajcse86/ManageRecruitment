@@ -302,7 +302,7 @@ public class CandidatureDetails {
 		if (candidateName == null && emailId ==null) {
 			if (other.candidateName != null && other.emailId!=null)
 				return false;
-		} else if (!candidateName.equals(other.candidateName) && !emailId.equals(other.emailId))
+		} else if (!candidateName.equals(other.candidateName)&& !emailId.equals(other.emailId))
 			return false;
 		return true;
 	}
