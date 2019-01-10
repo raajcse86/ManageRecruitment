@@ -299,7 +299,7 @@ public class CandidatureDetails {
 		if (getClass() != obj.getClass())
 			return false;
 		CandidatureDetails other = (CandidatureDetails) obj;
-		if (candidateName == null&& emailId ==null) {
+		if (candidateName == null && emailId ==null) {
 			if (other.candidateName != null && other.emailId!=null)
 				return false;
 		} else if (!candidateName.equals(other.candidateName) && !emailId.equals(other.emailId))
