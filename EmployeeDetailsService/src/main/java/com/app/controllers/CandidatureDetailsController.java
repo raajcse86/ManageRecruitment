@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.models.CandidatureDetails;
+import com.app.models.Chart;
 import com.app.models.EmployeeDetails;
 import com.app.services.CandidatureDetailsService;
 /**
@@ -41,6 +42,17 @@ public class CandidatureDetailsController {
     public List<CandidatureDetails> getAllCandidatureDetailsDetails() {
 		return candidatureDetailsService.findAll();
     }
+	
+	@GetMapping("/candidatureDetailsBy/{criteria}")
+    public Chart getAllCandidatureDetailsByCriteria(@PathVariable("criteria") String criteria) {
+	   return candidatureDetailsService.findCandidatesByCriteria(criteria);
+    }
+	
+	@GetMapping("/candidatureDetailsBy/{criteria}/{category}/and/{type}")
+    public List<CandidatureDetails> getAllCandidatureDetailsByCriteriaAndType(@PathVariable("criteria") String criteria,@PathVariable("type") String type,@PathVariable("category") String category) {
+	   return candidatureDetailsService.findCandidatureDetailsByCategoryCriteriaAndType(criteria,category,type);
+    }
+
 
     @PostMapping("/candidatureDetails")
     public CandidatureDetails createEmployeeDetails(@Valid @RequestBody CandidatureDetails todo) {

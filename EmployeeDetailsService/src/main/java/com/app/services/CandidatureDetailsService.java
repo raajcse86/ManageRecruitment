@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.app.models.CandidatureDetails;
+import com.app.models.Chart;
 
 /**
  * @author Rajasekar.Murugesan
@@ -19,5 +20,7 @@ public interface CandidatureDetailsService {
 	CandidatureDetails updateCandidatureDetails(String id, CandidatureDetails emp);
 	void deleteCandidatureDetails(String id);
 	List<CandidatureDetails> updateListOfCandidatureDetails(List<CandidatureDetails> empDetails);
+	Chart findCandidatesByCriteria(String criteria);
+	List<CandidatureDetails> findCandidatureDetailsByCategoryCriteriaAndType(String Category,String criteria,String type);
 
 }
