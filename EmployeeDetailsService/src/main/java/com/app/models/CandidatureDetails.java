@@ -290,7 +290,22 @@ public class CandidatureDetails {
 	public void setExpectedJoiningDate(String expectedJoiningDate) {
 		this.expectedJoiningDate = expectedJoiningDate;
 	}
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CandidatureDetails other = (CandidatureDetails) obj;
+		if (candidateName == null && emailId ==null) {
+			if (other.candidateName != null && other.emailId!=null)
+				return false;
+		} else if (!candidateName.equals(other.candidateName) && !emailId.equals(other.emailId))
+			return false;
+		return true;
+	}
 	
 	
 }
