@@ -175,12 +175,12 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 					.collect(Collectors.toList());
 			else if(criteria.equalsIgnoreCase("client"))
 				refineCandidateDetails = allCandidateDetails.stream()
-				.filter(Candidates -> Candidates.getPositionLocation().equalsIgnoreCase(category)
+				.filter(Candidates -> Candidates.getClient().equalsIgnoreCase(category)
 						&& Candidates.getFinalStatus().equalsIgnoreCase(type))
 				.collect(Collectors.toList());
 			else
 				refineCandidateDetails = allCandidateDetails.stream()
-				.filter(Candidates -> Candidates.getPositionLocation().equalsIgnoreCase(category)
+				.filter(Candidates -> Candidates.getRoleOfResponsibilities().equalsIgnoreCase(category)
 						&& Candidates.getFinalStatus().equalsIgnoreCase(type))
 				.collect(Collectors.toList());
 		return refineCandidateDetails;
