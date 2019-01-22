@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.app.services.EmployeeDetailsServiceImpl;
 
 @SpringBootApplication
-@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.services"})
+@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.services","com.app.jwt","com.app.jwt.resource"})
 @EnableMongoRepositories(value= {"com.app.repositories"})
 public class EmployeeDetailsServiceApplication extends SpringBootServletInitializer {
 
