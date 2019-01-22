@@ -3,6 +3,8 @@
  */
 package com.app.models;
 
+import java.util.Collection;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -20,38 +22,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Document(collection = "User")
 @JsonIgnoreProperties(value = { "createdAt" }, allowGetters = true)
 public class UserDetails {
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+	
 
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
+	
 	/**
 	 * @return the role
 	 */
@@ -68,16 +41,51 @@ public class UserDetails {
 	}
 
 
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
 	@Id
 	private String id;
 
 	@NotBlank
 	@Size(max = 100)
 	@Indexed(unique=true)
-	private String name;
+	private String username;
+	
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	private String password;
+	
+	
 	
 	
 	private String role;
+
 	
 
 }

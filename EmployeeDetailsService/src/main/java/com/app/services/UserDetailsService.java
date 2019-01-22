@@ -19,5 +19,6 @@ public interface UserDetailsService {
 	Optional<UserDetails> getUserDetailsById(String id);
 	UserDetails updateUserDetails(String id, UserDetails emp);
 	void deleteUserDetails(String id);
+	UserDetails findByUserName(String username);
 
 }
