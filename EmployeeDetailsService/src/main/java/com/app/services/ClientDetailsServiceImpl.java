@@ -108,17 +108,18 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 					.findByClient(clientDetail.getClientName());
 			if (null != candidatureDetails && candidatureDetails.size() > 0) {
 				for (CandidatureDetails details : candidatureDetails) {
-
-					if (details.getStatus().equalsIgnoreCase("Interviews in Progress")) {
-						interviewInProgress = interviewInProgress+1;
-					} else if (details.getStatus().equalsIgnoreCase("Joined")) {
-						joined = joined+1;
-					} else if (details.getStatus().equalsIgnoreCase("Offer in Progress")) {
-						offerInProgress = offerInProgress+1;
-					} else if (details.getStatus().equalsIgnoreCase("Offer Released")) {
-						offerReleased = offerReleased+1;
-					} else if (details.getStatus().equalsIgnoreCase("Screening in Progress")) {
-						screeningInProgress = screeningInProgress+1;
+					if (details.getStatus().equalsIgnoreCase("Active")) {
+						if (details.getStatus().equalsIgnoreCase("Interviews in Progress")) {
+							interviewInProgress = interviewInProgress + 1;
+						} else if (details.getStatus().equalsIgnoreCase("Joined")) {
+							joined = joined + 1;
+						} else if (details.getStatus().equalsIgnoreCase("Offer in Progress")) {
+							offerInProgress = offerInProgress + 1;
+						} else if (details.getStatus().equalsIgnoreCase("Offer Released")) {
+							offerReleased = offerReleased + 1;
+						} else if (details.getStatus().equalsIgnoreCase("Screening in Progress")) {
+							screeningInProgress = screeningInProgress + 1;
+						}
 					}
 				}
 
