@@ -108,7 +108,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 					.findByClient(clientDetail.getClientName());
 			if (null != candidatureDetails && candidatureDetails.size() > 0) {
 				for (CandidatureDetails details : candidatureDetails) {
-					if (details.getStatus().equalsIgnoreCase("Active")) {
+					if (details.getStatus().equalsIgnoreCase("Active") ) {
 						if (details.getStatus().equalsIgnoreCase("Interviews in Progress")) {
 							interviewInProgress = interviewInProgress + 1;
 						} else if (details.getStatus().equalsIgnoreCase("Joined")) {
