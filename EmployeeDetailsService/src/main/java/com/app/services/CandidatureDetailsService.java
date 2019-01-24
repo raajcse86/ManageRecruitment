@@ -22,6 +22,7 @@ public interface CandidatureDetailsService {
 	void deleteCandidatureDetails(String id);
 	List<CandidatureDetails> updateListOfCandidatureDetails(List<CandidatureDetails> empDetails);
 	Chart findCandidatesByCriteria(String criteria);
+	Chart findCandidatesByCriteriaForReports(String criteria);
 	List<Reports> findCandidatesReports(String criteria);
 	List<CandidatureDetails> findCandidatureDetailsByCategoryCriteriaAndType(String Category,String criteria,String type);
 

@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import com.app.services.EmployeeDetailsServiceImpl;
 
-@SpringBootApplication(exclude=SecurityAutoConfiguration.class) 
-@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.services"})
+@SpringBootApplication 
+@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.services","com.app.jwt","com.app.jwt.resource"})
 @EnableMongoRepositories(value= {"com.app.repositories"})
 public class EmployeeDetailsServiceApplication extends SpringBootServletInitializer {
 

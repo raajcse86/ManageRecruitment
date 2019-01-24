@@ -54,6 +54,11 @@ public class CandidatureDetailsController {
 	   return candidatureDetailsService.findCandidatesReports(criteria);
     }
 	
+	@GetMapping("/candidatureDetailsBy/reports/bargraph/{criteria}")
+    public Chart getAllCandidaturReportsByCriteriaBarGraph(@PathVariable("criteria") String criteria) {
+	   return candidatureDetailsService.findCandidatesByCriteriaForReports(criteria);
+    }
+	
 	@GetMapping("/candidatureDetailsBy/{criteria}/{category}/and/{type}")
     public List<CandidatureDetails> getAllCandidatureDetailsByCriteriaAndType(@PathVariable("criteria") String criteria,@PathVariable("type") String type,@PathVariable("category") String category) {
 	   return candidatureDetailsService.findCandidatureDetailsByCategoryCriteriaAndType(criteria,category,type);

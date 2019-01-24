@@ -4,9 +4,11 @@
 package com.app.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -98,6 +100,114 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 				
 			}
 		chart.setChartDatasets(chartDataSet);
+		return chart;
+			
+		}
+	
+	@Override
+	public Chart findCandidatesByCriteriaForReports(String criteria) {
+		List<CandidatureDetails> allCandidateDetails = getAllCandidateDetails();
+		Map<String, Map<String, List<CandidatureDetails>>> candidatesByCityandCriteria = null;
+		if(criteria.equalsIgnoreCase("location"))
+		candidatesByCityandCriteria = allCandidateDetails.stream()
+				.collect(Collectors.groupingBy(CandidatureDetails::getPositionLocation,
+						Collectors.groupingBy(CandidatureDetails::getFinalStatus)));
+		else if(criteria.equalsIgnoreCase("client"))
+				candidatesByCityandCriteria = allCandidateDetails.stream()
+						.collect(Collectors.groupingBy(CandidatureDetails::getClient,
+								Collectors.groupingBy(CandidatureDetails::getFinalStatus)));
+		Chart chart = new Chart();
+		List<String> chartLabels = new ArrayList<String>();
+		List<Integer> intinList = new ArrayList<Integer>();
+		List<Integer> joinedList = new ArrayList<Integer>();
+		List<Integer> offinselectionList = new ArrayList<Integer>();
+		List<Integer> onholdList = new ArrayList<Integer>();
+		List<Integer> screeningInList = new ArrayList<Integer>();
+		List<ChartDataSet> chartDataSet = new ArrayList<ChartDataSet>();
+		int size = 0;
+		for(Map.Entry<String, Map<String, List<CandidatureDetails>>> superMap : candidatesByCityandCriteria.entrySet())
+		{
+			chartLabels.add(superMap.getKey());
+			Map<String, List<CandidatureDetails>> valueDataset = new TreeMap<String, List<CandidatureDetails>>(superMap.getValue());
+			if (null!=valueDataset.get("Interviews in Progress") && valueDataset.get("Interviews in Progress").size() > 0)
+			{
+				intinList.add(valueDataset.get("Interviews in Progress").size());
+			    if(valueDataset.get("Interviews in Progress").size()>size)
+			    {
+			    	size = valueDataset.get("Interviews in Progress").size();
+			    }
+			} 
+			else
+				intinList.add(0);
+			if (null!=valueDataset.get("Joined") && valueDataset.get("Joined").size() > 0)
+			{
+				joinedList.add(valueDataset.get("Joined").size());
+				if(valueDataset.get("Joined").size()>size)
+			    {
+			    	size = valueDataset.get("Joined").size();
+			    } 
+			}	
+			else
+				joinedList.add(0);
+			if (null!=valueDataset.get("Offer in Progress") && valueDataset.get("Offer in Progress").size() > 0)
+			{
+				offinselectionList.add(valueDataset.get("Offer in Progress").size());
+				if(valueDataset.get("Offer in Progress").size()>size)
+			    {
+			    	size = valueDataset.get("Offer in Progress").size();
+			    } 
+			}
+			else
+				offinselectionList.add(0);
+			if (null!=valueDataset.get("On hold") && valueDataset.get("On hold").size() > 0)
+				{
+				onholdList.add(valueDataset.get("On hold").size());
+				if(valueDataset.get("On hold").size()>size)
+			    {
+			    	size = valueDataset.get("On hold").size();
+			    } 
+				}
+			else
+				onholdList.add(0);
+			if (null!=valueDataset.get("Screening in Progress") && valueDataset.get("Screening in Progress").size() > 0)
+				{
+				screeningInList.add(valueDataset.get("Screening in Progress").size());
+				if(valueDataset.get("Screening in Progress").size()>size)
+			    {
+			    	size = valueDataset.get("Screening in Progress").size();
+			    } 
+				}
+			else
+				screeningInList.add(0);	
+			}
+		chart.setChartLabels(chartLabels);
+		ChartDataSet dataset1 = new ChartDataSet();
+		dataset1.setLabel("Interviews in Progress");
+		dataset1.setData(intinList);
+		chartDataSet.add(dataset1);
+		
+		ChartDataSet dataset2 = new ChartDataSet();
+		dataset2.setLabel("Joined");
+		dataset2.setData(joinedList);
+		chartDataSet.add(dataset2);
+		
+		ChartDataSet dataset3 = new ChartDataSet();
+		dataset3.setLabel("Offer in Progress");
+		dataset3.setData(offinselectionList);
+		chartDataSet.add(dataset3);
+		
+		ChartDataSet dataset4 = new ChartDataSet();
+		dataset4.setLabel("On hold");
+		dataset4.setData(onholdList);
+		chartDataSet.add(dataset4);
+		
+		ChartDataSet dataset5 = new ChartDataSet();
+		dataset5.setLabel("Screening in Progress");
+		dataset5.setData(screeningInList);
+		chartDataSet.add(dataset5);
+		
+		chart.setChartDatasets(chartDataSet);
+		chart.setYaxisScale(size+1);
 		return chart;
 			
 		}
