@@ -267,6 +267,11 @@ public class ParseExcelFileServiceImpl implements ParseExcelFileService {
 										details.setExpectedJoiningDate(cellValue);
 										break;
 									}
+								case 39:
+									if(cellValue != null && !cellValue.isEmpty()) {
+									details.setFinalTechSelectionDate(cellValue);
+									break;
+									}
 								}
 
 							}
