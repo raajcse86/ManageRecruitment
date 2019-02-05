@@ -22,11 +22,7 @@ public class RegisterController {
 
 	@PostMapping("/users/register")
 	public void register(@Valid @RequestBody RegisterDetails registerDetails) {
-		System.out.println("In register controller :: ");
-		System.out.println("Request in api :: "+new Gson().toJson(registerDetails));
 		registerService.save(registerDetails);
-
-		System.out.println("SUCCESSFUL");
 	}
 
 }
