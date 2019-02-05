@@ -6,6 +6,7 @@ public class Chart {
 	
 	private List<String> chartLabels;
 	private List<ChartDataSet> chartDatasets;
+	private int yaxisScale;
 	public List<String> getChartLabels() {
 		return chartLabels;
 	}
@@ -18,5 +19,12 @@ public class Chart {
 	public void setChartDatasets(List<ChartDataSet> chartDatasets) {
 		this.chartDatasets = chartDatasets;
 	}
+	public int getYaxisScale() {
+		return yaxisScale;
+	}
+	public void setYaxisScale(int yaxisScale) {
+		this.yaxisScale = yaxisScale;
+	}
+	
 
 }

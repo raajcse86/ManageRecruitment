@@ -56,6 +56,8 @@ public class CandidatureDetails {
 	private String profileStatus;
 	private String statusUpdatedDate;
 	private String expectedJoiningDate;
+	private String finalTechSelectionDate;
+	
 	public String getId() {
 		return id;
 	}
@@ -289,6 +291,12 @@ public class CandidatureDetails {
 	}
 	public void setExpectedJoiningDate(String expectedJoiningDate) {
 		this.expectedJoiningDate = expectedJoiningDate;
+	}
+	public String getFinalTechSelectionDate() {
+		return finalTechSelectionDate;
+	}
+	public void setFinalTechSelectionDate(String finalTechSelectionDate) {
+		this.finalTechSelectionDate = finalTechSelectionDate;
 	}
 	@Override
 	public boolean equals(Object obj) {

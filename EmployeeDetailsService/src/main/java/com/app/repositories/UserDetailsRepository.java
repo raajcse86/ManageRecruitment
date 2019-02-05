@@ -15,4 +15,6 @@ import com.app.models.UserDetails;
 @Repository
 public interface UserDetailsRepository extends MongoRepository<UserDetails, String> {
 
+	UserDetails findByUsername(String username);
+
 }

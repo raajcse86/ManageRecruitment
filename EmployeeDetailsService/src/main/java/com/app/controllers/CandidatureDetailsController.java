@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.models.CandidatureDetails;
 import com.app.models.Chart;
 import com.app.models.EmployeeDetails;
+import com.app.models.Reports;
 import com.app.services.CandidatureDetailsService;
 /**
  * @author Rajasekar.Murugesan
@@ -46,6 +47,16 @@ public class CandidatureDetailsController {
 	@GetMapping("/candidatureDetailsBy/{criteria}")
     public Chart getAllCandidatureDetailsByCriteria(@PathVariable("criteria") String criteria) {
 	   return candidatureDetailsService.findCandidatesByCriteria(criteria);
+    }
+	
+	@GetMapping("/candidatureDetailsBy/reports/{criteria}")
+    public List<Reports> getAllCandidaturReportsByCriteria(@PathVariable("criteria") String criteria) {
+	   return candidatureDetailsService.findCandidatesReports(criteria);
+    }
+	
+	@GetMapping("/candidatureDetailsBy/reports/bargraph/{criteria}")
+    public Chart getAllCandidaturReportsByCriteriaBarGraph(@PathVariable("criteria") String criteria) {
+	   return candidatureDetailsService.findCandidatesByCriteriaForReports(criteria);
     }
 	
 	@GetMapping("/candidatureDetailsBy/{criteria}/{category}/and/{type}")

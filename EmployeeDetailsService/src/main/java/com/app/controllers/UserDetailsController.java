@@ -42,6 +42,11 @@ public class UserDetailsController {
     public List<UserDetails> getAllUserDetails() {
 		return userDetailsService.findAll();
     }
+	
+	@GetMapping(value="/userDetails/username/{username}")
+    public UserDetails getUserDetails(@PathVariable("username")String username) {
+		return userDetailsService.findByUserName(username);
+    }
 
     @PostMapping("/userDetails")
     public UserDetails createUserDetails(@Valid @RequestBody UserDetails userDetail) {
