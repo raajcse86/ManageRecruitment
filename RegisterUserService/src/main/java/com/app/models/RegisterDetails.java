@@ -2,8 +2,11 @@ package com.app.models;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.data.annotation.Id;
+
 public class RegisterDetails {
 
+	@NotBlank
 	private String firstName;
 
 	private String lastName;
@@ -14,6 +17,8 @@ public class RegisterDetails {
 	@NotBlank
 	private String password;
 	
+	@Id
+	@NotBlank
 	private String emailId;
 	
 	private String status;
