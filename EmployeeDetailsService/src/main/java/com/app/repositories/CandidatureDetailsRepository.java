@@ -18,5 +18,7 @@ import com.app.models.CandidatureDetails;
 public interface CandidatureDetailsRepository extends MongoRepository<CandidatureDetails, String> {
 	
 	public List<CandidatureDetails> findByClient(String name);
+	
+	public List<CandidatureDetails> findByCandidateNameAndEmailId(String candidateName, String emailId);
 
 }
