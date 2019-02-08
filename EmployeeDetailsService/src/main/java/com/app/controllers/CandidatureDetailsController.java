@@ -9,6 +9,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.models.CandidatureDetails;
 import com.app.models.Chart;
-import com.app.models.EmployeeDetails;
 import com.app.models.Reports;
 import com.app.services.CandidatureDetailsService;
 /**
@@ -31,6 +33,7 @@ import com.app.services.CandidatureDetailsService;
  */
 
 @RestController
+//@RefreshScope
 @RequestMapping("/api")
 @CrossOrigin("*")
 public class CandidatureDetailsController {
@@ -39,6 +42,15 @@ public class CandidatureDetailsController {
 	private CandidatureDetailsService candidatureDetailsService;
 	
 
+	@Value("${msg:Hello world - Config Server is not working..pelase check}")
+	private String msg;
+
+	@RequestMapping("/msg")
+	String getMsg() {
+		return this.msg;
+	}
+	
+	
 	@GetMapping("/candidatureDetails")
     public List<CandidatureDetails> getAllCandidatureDetailsDetails() {
 		return candidatureDetailsService.findAll();
