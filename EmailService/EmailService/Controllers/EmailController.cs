@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmailService.Api.Contracts.Services;
+using EmailService.Api.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,9 +29,9 @@ namespace EmailService.Controllers
 
         // POST: api/Email
         [HttpPost]
-        async public Task PostAsync([FromBody] string value)
+        async public Task PostAsync([FromBody] Email email)
         {
-            await _emailService.SendEmailAsync();
+            await _emailService.SendEmailAsync(email);
         }
     }
 }

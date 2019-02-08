@@ -9,6 +9,7 @@ namespace EmailService.Api.Contracts.Repositories
     public interface IEmailRepository : IDisposable
     {
         IEnumerable<Email> GetEmails();
-        Task SaveAsync();
+        Task<int> SaveAsync();
+        Task AddEmailAsync(Email email);
     }
 }

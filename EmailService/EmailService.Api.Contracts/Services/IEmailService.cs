@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmailService.Api.Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,6 @@ namespace EmailService.Api.Contracts.Services
         /// Method to send email.
         /// </summary>
         /// <returns></returns>
-        Task SendEmailAsync();
+        Task<int> SendEmailAsync(Email email);
     }
 }

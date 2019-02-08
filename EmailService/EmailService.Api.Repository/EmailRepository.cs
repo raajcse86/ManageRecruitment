@@ -23,9 +23,14 @@ namespace EmailService.Api.Repositories
             return _context.Emails.ToList();
         }
 
-        async public Task SaveAsync()
+        async public Task AddEmailAsync(Email email)
         {
-            await _context.SaveChangesAsync();
+            await _context.AddAsync(email);
+        }
+
+        async public Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
 
         protected virtual void Dispose(bool disposing)

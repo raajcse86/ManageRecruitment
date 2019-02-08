@@ -1,8 +1,11 @@
 ﻿using EmailService.Api.Contracts.Repositories;
 using EmailService.Api.Contracts.Services;
 using EmailService.Api.Models;
+using EmailService.Api.Models.Models;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,10 +20,23 @@ namespace EmailService.Api.Services.Email
             _emailRepository = emailRepository;
             _emailConfiguration = emailConfiguration;
         }
-        async public Task SendEmailAsync()
+
+        async public Task<int> SendEmailAsync(Models.Models.Email email)
         {
-            var config = _emailConfiguration.MailServer;
-            await _emailRepository.SaveAsync();
+            using (var client = new SmtpClient(_emailConfiguration.MailServer, _emailConfiguration.Port))
+            {
+                var mailMessage = new MailMessage(_emailConfiguration.SenderEmail, email.Address, email.Subject, email.Body);
+
+                var sendMail = client.SendMailAsync(mailMessage);
+
+                sendMail.Wait();
+
+                var addEmailToDB = _emailRepository.AddEmailAsync(email);
+
+                addEmailToDB.Wait();
+
+                return await _emailRepository.SaveAsync();
+            }
         }
     }
 }
