@@ -45,9 +45,14 @@ namespace EmailService
             // Add Configurations
 
             var emailConfig = new EmailConfiguration();
+            var appSettings = new AppSettings();
             Configuration.Bind("Email", emailConfig);
+            Configuration.Bind("AppSettings", appSettings);
+
+
 
             services.AddSingleton(emailConfig);
+            services.AddSingleton(appSettings);
 
             // Add DbContext
             services.AddDbContext<DataContext>(options =>
