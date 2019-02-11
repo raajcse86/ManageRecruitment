@@ -18,13 +18,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.models.CandidatureDetails;
 import com.app.models.ClientDetails;
+import com.app.util.CandidateProperties;
+import com.app.util.ClientProperties;
 
 /**
  * @author Rajasekar.Murugesan
@@ -339,6 +339,12 @@ public class ParseExcelFileServiceImpl implements ParseExcelFileService {
 			throw e;
 		}
 		return clientDetails;
+	}
+
+	@Override
+	public List<CandidatureDetails> readExcelFile(MultipartFile file) throws ParseException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
