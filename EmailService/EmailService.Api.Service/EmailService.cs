@@ -25,7 +25,7 @@ namespace EmailService.Api.Services.Email
         {
             using (var client = new SmtpClient(_emailConfiguration.MailServer, _emailConfiguration.Port))
             {
-                var mailMessage = new MailMessage(_emailConfiguration.SenderEmail, email.Address, email.Subject, email.Body);
+                var mailMessage = new MailMessage(_emailConfiguration.SenderEmail, email.ToAddress, email.Subject, email.Body);
 
                 var sendMail = client.SendMailAsync(mailMessage);
 
