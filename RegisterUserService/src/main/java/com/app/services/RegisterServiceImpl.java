@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.models.RegisterDetails;
@@ -19,9 +19,9 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Override
 	public void save(RegisterDetails registerDetails) {
-		registerDetails.setPassword(new BCryptPasswordEncoder().encode(registerDetails.getPassword()));
+		registerDetails.setPassword(new Base64().encodeBase64String(registerDetails.getPassword().getBytes()));
 		if (null == registerDetails.getStatus())
-			registerDetails.setStatus("Approval Pending");
+			registerDetails.setStatus("Pending for approval");
 		registerRepository.save(registerDetails);
 	}
 
