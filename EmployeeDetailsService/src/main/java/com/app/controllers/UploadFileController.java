@@ -14,10 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.app.models.CandidatureDetails;
 import com.app.models.ClientDetails;
-import com.app.models.EmployeeDetails;
 import com.app.services.CandidatureDetailsService;
 import com.app.services.ClientDetailsService;
-import com.app.services.EmployeeDetailsService;
 import com.app.services.ParseExcelFileService;
 
 /**
@@ -32,9 +30,6 @@ public class UploadFileController {
 	private ParseExcelFileService parseExcelFileService;
 
 	@Autowired
-	private EmployeeDetailsService employeeDetailsService;
-
-	@Autowired
 	private CandidatureDetailsService candidatureDetailsService;
 
 	@Autowired
@@ -45,12 +40,6 @@ public class UploadFileController {
 	 */
 	@PostMapping("/api/file/upload")
 	public String uploadMultipartFile(@RequestParam("file") MultipartFile file) {
-		try {
-			List<EmployeeDetails> empList = parseExcelFileService.readFile(file);
-			employeeDetailsService.updateListOfEmployeeDetails(empList);
-		} catch (Exception e) {
-			return "FAIL! employeeDetails:: Maybe You had uploaded the file before or the file's size > 500KB";
-		}
 		try {
 			List<ClientDetails> clientDetails = parseExcelFileService.readClientsFile(file);
 			System.out.println("Client details size is :: " + clientDetails.size());

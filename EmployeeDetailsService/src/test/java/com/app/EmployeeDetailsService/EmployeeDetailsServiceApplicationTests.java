@@ -1,4 +1,4 @@
-package com.example.EmployeeDetailsService;
+package com.app.EmployeeDetailsService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

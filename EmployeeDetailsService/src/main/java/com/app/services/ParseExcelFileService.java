@@ -19,9 +19,6 @@ import com.app.models.EmployeeDetails;
 public interface ParseExcelFileService {
 	
 	
-	List<EmployeeDetails> readFile(MultipartFile file);
-	
-	
 	List<CandidatureDetails> readExcelFile(MultipartFile file) throws ParseException;
 	
 	List<ClientDetails> readClientsFile(MultipartFile file) throws ParseException;
