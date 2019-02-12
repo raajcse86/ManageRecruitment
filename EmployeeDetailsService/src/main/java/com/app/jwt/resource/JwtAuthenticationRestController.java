@@ -91,9 +91,6 @@ public class JwtAuthenticationRestController {
 		Objects.requireNonNull(username);
 		Objects.requireNonNull(password);
 
-		System.out.println("Sandeep the value of the user token " + username);
-		System.out.println("Sandeep the value of the user token " + password);
-
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
