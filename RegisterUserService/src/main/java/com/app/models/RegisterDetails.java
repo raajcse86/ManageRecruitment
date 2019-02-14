@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
 
-public class RegisterDetails {
+public class RegisterDetails implements Comparable<RegisterDetails>{
 
 	@NotBlank
 	private String firstName;
@@ -22,6 +22,9 @@ public class RegisterDetails {
 	private String emailId;
 	
 	private String status;
+	
+	private String comments="NA";
+	private String approver="NA";
 
 	public String getFirstName() {
 		return firstName;
@@ -70,5 +73,29 @@ public class RegisterDetails {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+			this.comments = comments;
+	}
+
+	public String getApprover() {
+		return approver;
+	}
+
+	public void setApprover(String approver) {
+			this.approver = approver;
+	}
+
+	@Override
+	public int compareTo(RegisterDetails user) {
+		if (user.getStatus()=="Pending for approval")
+			return 1;
+		else
+			return -1;
+	}
+
 }
