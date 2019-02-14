@@ -1,5 +1,6 @@
 package com.app.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,13 +28,21 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Override
 	public List<RegisterDetails> findAll() {
-		return registerRepository.findAll();
+		List<RegisterDetails> usersList = registerRepository.findAll();
+		Collections.sort(usersList);
+		/*
+		 * Collections.sort(usersList, (user1, user2) -> { System.out.println(user1.y);
+		 * if(user1.getStatus()!="Pending for approval") return 1; else return 0; });
+		 */
+		return usersList;
 	}
 
 	@Override
 	public RegisterDetails update(@Valid RegisterDetails registerDetails) {
 		Optional<RegisterDetails> user = registerRepository.findById(registerDetails.getEmailId());
 		user.get().setStatus(registerDetails.getStatus());
+		user.get().setApprover(registerDetails.getApprover());
+		user.get().setComments(registerDetails.getComments());
 		return registerRepository.save(user.get());
 	}
 
