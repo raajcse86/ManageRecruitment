@@ -228,33 +228,39 @@ public class ParseExcelFileServiceImpl implements ParseExcelFileService {
 								break;
 							}
 						case 31:
+							details.setFinalStatus(cellValue);
+							/*
+							 * if (details.getStatus().equalsIgnoreCase("1st round scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("1st round to be scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("1st round to be Re-scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("2nd round scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("2nd round to be scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("Client Interview to be Re-scheduled")
+							 * || details.getStatus().equalsIgnoreCase("Client Interview to be scheduled")
+							 * || details.getStatus().equalsIgnoreCase("Client Interview scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("Final Round to be scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("Final round scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("Final Round to be rescheduled") ||
+							 * details.getStatus().equalsIgnoreCase("HR round to be scheduled") ||
+							 * details.getStatus().equalsIgnoreCase("HR Round cleared"))
+							 * details.setFinalStatus("Interviews in Progress"); else if
+							 * (details.getStatus().equalsIgnoreCase("Joined"))
+							 * details.setFinalStatus("Joined"); else if
+							 * (details.getStatus().equalsIgnoreCase("Offer in Progress"))
+							 * details.setFinalStatus("Offer in Progress"); else if
+							 * (details.getStatus().equalsIgnoreCase("Offer Released"))
+							 * details.setFinalStatus("Offer Released"); else if
+							 * (details.getStatus().equalsIgnoreCase("On hold"))
+							 * details.setFinalStatus("On hold"); else if
+							 * (details.getStatus().equalsIgnoreCase("Rejected/Not shortlisted"))
+							 * details.setFinalStatus("Rejected/Not shortlisted"); else if
+							 * (details.getStatus().equalsIgnoreCase("Yet to screen"))
+							 * details.setFinalStatus("Screening in Progress"); else if
+							 * (details.getStatus()==null) details.setFinalStatus("Screening in Progress");
+							 */
+							break;
+						case 32:
 							details.setStatus(cellValue);
-							if (details.getStatus().equalsIgnoreCase("1st round scheduled")
-									|| details.getStatus().equalsIgnoreCase("1st round to be scheduled")
-									|| details.getStatus().equalsIgnoreCase("1st round to be Re-scheduled")
-									|| details.getStatus().equalsIgnoreCase("2nd round scheduled")
-									|| details.getStatus().equalsIgnoreCase("2nd round to be scheduled")
-									|| details.getStatus().equalsIgnoreCase("Client Interview to be Re-scheduled")
-									|| details.getStatus().equalsIgnoreCase("Client Interview to be scheduled")
-									|| details.getStatus().equalsIgnoreCase("Client Interview scheduled")
-									|| details.getStatus().equalsIgnoreCase("Final Round to be scheduled")
-									|| details.getStatus().equalsIgnoreCase("Final round scheduled")
-									|| details.getStatus().equalsIgnoreCase("Final Round to be rescheduled")
-									|| details.getStatus().equalsIgnoreCase("HR round to be scheduled")
-									|| details.getStatus().equalsIgnoreCase("HR Round cleared"))
-								details.setFinalStatus("Interviews in Progress");
-							else if (details.getStatus().equalsIgnoreCase("Joined"))
-								details.setFinalStatus("Joined");
-							else if (details.getStatus().equalsIgnoreCase("Offer in Progress"))
-								details.setFinalStatus("Offer in Progress");
-							else if (details.getStatus().equalsIgnoreCase("Offer Released"))
-								details.setFinalStatus("Offer Released");
-							else if (details.getStatus().equalsIgnoreCase("On hold"))
-								details.setFinalStatus("On hold");
-							else if (details.getStatus().equalsIgnoreCase("Rejected/Not shortlisted"))
-								details.setFinalStatus("Rejected/Not shortlisted");
-							else if (details.getStatus().equalsIgnoreCase("Yet to screen"))
-								details.setFinalStatus("Screening in Progress");
 							break;
 						case 33:
 							details.setDescription(cellValue);

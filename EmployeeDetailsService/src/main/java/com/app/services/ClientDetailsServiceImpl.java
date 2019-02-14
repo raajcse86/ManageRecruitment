@@ -1,7 +1,6 @@
 package com.app.services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,29 +102,34 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 			Integer offerInProgress = 0;
 			Integer interviewInProgress = 0;
 			Integer screeningInProgress = 0;
-			
-			
 
 			List<CandidatureDetails> candidatureDetails = candidatureDetailsRepository
 					.findByClient(clientDetail.getClientName());
-			System.out.println("Sandeep the client name is "+candidatureDetails.size());
 			if (null != candidatureDetails && candidatureDetails.size() > 0) {
+
 				for (CandidatureDetails details : candidatureDetails) {
-					if (details.getProfileStatus().equalsIgnoreCase("Active") ) {
-						if (details.getFinalStatus().equalsIgnoreCase("Interviews in Progress")) {
-							interviewInProgress = interviewInProgress + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Joined")) {
-							joined = joined + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Offer in Progress")) {
-							offerInProgress = offerInProgress + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Offer Released")) {
-							offerReleased = offerReleased + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Screening in Progress")) {
-							screeningInProgress = screeningInProgress + 1;
+					try {
+						if (details.getProfileStatus().equalsIgnoreCase("Active")) {
+							
+							if (details.getFinalStatus().equalsIgnoreCase("Interviews in Progress")) {
+								interviewInProgress = interviewInProgress + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Joined")) {
+								joined = joined + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Offer in Progress")) {
+								offerInProgress = offerInProgress + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Offer Released")) {
+								offerReleased = offerReleased + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Screening in Progress")) {
+								screeningInProgress = screeningInProgress + 1;
+							}
 						}
 					}
-				}
 
+					catch (Exception e) {
+						System.out.println("details &&&&&&&&&&& " + details.toString());
+						e.printStackTrace();
+					}
+				}
 			}
 			summary.setClientName(clientDetail.getClientName());
 			summary.setContractMechanism(clientDetail.getContractMechanism());

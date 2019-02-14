@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.jwt.JwtTokenUtil;
 import com.app.jwt.JwtUserDetails;
+import com.app.models.ExceptionModel;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -43,9 +44,16 @@ public class JwtAuthenticationRestController {
 	@RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
 			throws AuthenticationException {
+		try {
+			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+		} catch (BadCredentialsException e) {
+			ExceptionModel model = new ExceptionModel();
+			model.setCode(400);
+			model.setMessage("INVALID_CREDENTIALS");
+			model.setStatus("Failed to Login");
+			return new ResponseEntity<ExceptionModel>(model, HttpStatus.BAD_REQUEST);
+		}
 		final UserDetails userDetails = jwtInMemoryUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
 
@@ -70,23 +78,26 @@ public class JwtAuthenticationRestController {
 	}
 
 	@ExceptionHandler({ AuthenticationException.class })
-	public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	public ResponseEntity<ExceptionModel> handleAuthenticationException(AuthenticationException e) {
+		ExceptionModel exceptionModel = new ExceptionModel();
+		exceptionModel.setCode(400);
+		exceptionModel.setMessage(e.getMessage());
+		exceptionModel.setStatus("Failed");
+		
+		return new ResponseEntity<ExceptionModel>(exceptionModel,HttpStatus.UNAUTHORIZED);
 	}
 
 	private void authenticate(String username, String password) {
 		Objects.requireNonNull(username);
 		Objects.requireNonNull(password);
-		
-		System.out.println("Sandeep the value of the user token "+username);
-		System.out.println("Sandeep the value of the user token "+password);
 
+		
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
 			throw new AuthenticationException("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {
-			throw new AuthenticationException("INVALID_CREDENTIALS", e);
+			throw new AuthenticationException("Username or password is incorrect", e);
 		}
 	}
 }
