@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.models.ClientDetails;
 import com.app.models.Summary;
 import com.app.services.ClientDetailsService;
+import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/clientDetails")
@@ -27,8 +30,20 @@ public class ClientDetailsController {
 	private ClientDetailsService clientDetailsService;
 
 	@PostMapping("/save")
-	public void save(@Valid @RequestBody ClientDetails clientDetails) {
-		clientDetailsService.save(clientDetails);
+	
+	public ResponseEntity save(@Valid @RequestBody ClientDetails clientDetails) {
+		
+	ResponseEntity<ClientDetails> response =null;
+		try {
+			clientDetailsService.save(clientDetails);
+			response=new ResponseEntity<>(clientDetails, HttpStatus.CREATED); 
+		}catch(Exception ex){
+			response=new ResponseEntity<>(clientDetails, HttpStatus.INTERNAL_SERVER_ERROR); 
+			   
+		}
+		System.out.println(new Gson().toJson(response));
+		return response;
+		
 	}
 
 	@PostMapping("/saveAll")
