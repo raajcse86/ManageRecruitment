@@ -23,8 +23,8 @@ public class RegisterDetails implements Comparable<RegisterDetails>{
 	
 	private String status;
 	
-	private String comments="NA";
-	private String approver="NA";
+	private String comments;
+	private String approver;
 
 	public String getFirstName() {
 		return firstName;
