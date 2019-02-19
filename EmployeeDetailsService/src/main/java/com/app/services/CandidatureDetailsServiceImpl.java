@@ -4,11 +4,9 @@
 package com.app.services;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -61,8 +59,7 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		chartLabels.add("Interviews in Progress");
 		chartLabels.add("Joined");
 		chartLabels.add("Offer in Progress");
-		chartLabels.add("On hold");
-		chartLabels.add("Rejected/Not shortlisted");
+		chartLabels.add("Offer Released");
 		chartLabels.add("Screening in Progress");
 		chart.setChartLabels(chartLabels);
 		List<ChartDataSet> chartDataSet = new ArrayList<ChartDataSet>();
@@ -87,13 +84,8 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 				selectionList.add(valueDataset.get("Offer in Progress").size());
 			else
 				selectionList.add(0);
-			if (null != valueDataset.get("On hold") && valueDataset.get("On hold").size() > 0)
-				selectionList.add(valueDataset.get("On hold").size());
-			else
-				selectionList.add(0);
-			if (null != valueDataset.get("Rejected/Not shortlisted")
-					&& valueDataset.get("Rejected/Not shortlisted").size() > 0)
-				selectionList.add(valueDataset.get("Rejected/Not shortlisted").size());
+			if (null != valueDataset.get("Offer Released") && valueDataset.get("Offer Released").size() > 0)
+				selectionList.add(valueDataset.get("Offer Released").size());
 			else
 				selectionList.add(0);
 			if (null != valueDataset.get("Screening in Progress")
@@ -157,10 +149,10 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 				}
 			} else
 				offinselectionList.add(0);
-			if (null != valueDataset.get("On hold") && valueDataset.get("On hold").size() > 0) {
-				onholdList.add(valueDataset.get("On hold").size());
-				if (valueDataset.get("On hold").size() > size) {
-					size = valueDataset.get("On hold").size();
+			if (null != valueDataset.get("Offer Released") && valueDataset.get("Offer Released").size() > 0) {
+				onholdList.add(valueDataset.get("Offer Released").size());
+				if (valueDataset.get("Offer Released").size() > size) {
+					size = valueDataset.get("Offer Released").size();
 				}
 			} else
 				onholdList.add(0);
@@ -190,7 +182,7 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		chartDataSet.add(dataset3);
 
 		ChartDataSet dataset4 = new ChartDataSet();
-		dataset4.setLabel("On hold");
+		dataset4.setLabel("Offer Released");
 		dataset4.setData(onholdList);
 		chartDataSet.add(dataset4);
 
@@ -229,21 +221,21 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 
 	@Override
 	public List<CandidatureDetails> updateListOfCandidatureDetails(List<CandidatureDetails> candidatureDetails) {
-		
+
 		for (CandidatureDetails candidatureDetail : candidatureDetails) {
-			
-				List<CandidatureDetails> candidatureDetails1 = candidatureDetailsRepository.findByCandidateNameAndEmailId(candidatureDetail.getCandidateName(), candidatureDetail.getEmailId());
-				if(candidatureDetails1!=null && candidatureDetails1.size()>0) {
-					candidatureDetailsRepository.deleteAll(candidatureDetails1);
-					candidatureDetailsRepository.save(candidatureDetail);
-				}else {
-					candidatureDetailsRepository.save(candidatureDetail);
-				}
-		
+
+			List<CandidatureDetails> candidatureDetails1 = candidatureDetailsRepository.findByCandidateNameAndEmailId(
+					candidatureDetail.getCandidateName(), candidatureDetail.getEmailId());
+			if (candidatureDetails1 != null && candidatureDetails1.size() > 0) {
+				candidatureDetailsRepository.deleteAll(candidatureDetails1);
+				candidatureDetailsRepository.save(candidatureDetail);
+			} else {
+				candidatureDetailsRepository.save(candidatureDetail);
+			}
 
 		}
-		
-			return candidatureDetailsRepository.findAll();
+
+		return candidatureDetailsRepository.findAll();
 	}
 
 	@Override
@@ -261,10 +253,8 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 			type = "Joined";
 		else if (type.equalsIgnoreCase("OffInProg"))
 			type = "Offer in Progress";
-		else if (type.equalsIgnoreCase("ONHold"))
-			type = "On hold";
-		else if (type.equalsIgnoreCase("Rejected"))
-			type = "Rejected/Not shortlisted";
+		else if (type.equalsIgnoreCase("OfferReleased"))
+			type = "Offer Released";
 		else
 			type = "Screening in Progress";
 		return getFilterValues(criteria, category, type);
