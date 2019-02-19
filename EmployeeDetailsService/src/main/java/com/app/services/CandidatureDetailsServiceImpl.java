@@ -112,7 +112,7 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 			chartDataSet.add(dataset);
 
 		}
-		chart.setYaxisScale(size);
+		chart.setYaxisScale(size+2);
 		chart.setChartDatasets(chartDataSet);
 		return chart;
 
