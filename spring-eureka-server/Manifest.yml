@@ -1,4 +1,4 @@
-applications:  - name: EurekaServerApp
+applications:  - name: eureka-server-app
 path: target/spring-eureka-server-0.0.1-SNAPSHOT.jar
 buildpack: https://github.com/cloudfoundry/java-buildpack.git
 memory: 800M
