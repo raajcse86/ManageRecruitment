@@ -63,6 +63,7 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		chartLabels.add("Screening in Progress");
 		chart.setChartLabels(chartLabels);
 		List<ChartDataSet> chartDataSet = new ArrayList<ChartDataSet>();
+		int size = 0;
 		for (Map.Entry<String, Map<String, List<CandidatureDetails>>> superMap : candidatesByCityandCriteria
 				.entrySet()) {
 			ChartDataSet dataset = new ChartDataSet();
@@ -71,32 +72,47 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 					superMap.getValue());
 			List<Integer> selectionList = new ArrayList<Integer>();
 			if (null != valueDataset.get("Interviews in Progress")
-					&& valueDataset.get("Interviews in Progress").size() > 0)
+					&& valueDataset.get("Interviews in Progress").size() > 0) {
 				selectionList.add(valueDataset.get("Interviews in Progress").size());
-
-			else
+				if (valueDataset.get("Interviews in Progress").size() > size)
+					size = valueDataset.get("Interviews in Progress").size();
+			} else {
 				selectionList.add(0);
-			if (null != valueDataset.get("Joined") && valueDataset.get("Joined").size() > 0)
+			}
+			if (null != valueDataset.get("Joined") && valueDataset.get("Joined").size() > 0) {
 				selectionList.add(valueDataset.get("Joined").size());
-			else
+				if (valueDataset.get("Joined").size() > size)
+					size = valueDataset.get("Joined").size();
+			} else {
 				selectionList.add(0);
-			if (null != valueDataset.get("Offer in Progress") && valueDataset.get("Offer in Progress").size() > 0)
+			}
+			if (null != valueDataset.get("Offer in Progress") && valueDataset.get("Offer in Progress").size() > 0) {
 				selectionList.add(valueDataset.get("Offer in Progress").size());
-			else
+				if (valueDataset.get("Offer in Progress").size() > size)
+					size = valueDataset.get("Offer in Progress").size();
+			} else {
 				selectionList.add(0);
-			if (null != valueDataset.get("Offer Released") && valueDataset.get("Offer Released").size() > 0)
+			}
+			if (null != valueDataset.get("Offer Released") && valueDataset.get("Offer Released").size() > 0) {
 				selectionList.add(valueDataset.get("Offer Released").size());
-			else
+				if (valueDataset.get("Offer Released").size() > size)
+					size = valueDataset.get("Offer Released").size();
+			} else {
 				selectionList.add(0);
+			}
 			if (null != valueDataset.get("Screening in Progress")
-					&& valueDataset.get("Screening in Progress").size() > 0)
+					&& valueDataset.get("Screening in Progress").size() > 0) {
 				selectionList.add(valueDataset.get("Screening in Progress").size());
-			else
+				if (valueDataset.get("Screening in Progress").size() > size)
+					size = valueDataset.get("Screening in Progress").size();
+			} else {
 				selectionList.add(0);
+			}
 			dataset.setData(selectionList);
 			chartDataSet.add(dataset);
 
 		}
+		chart.setYaxisScale(size);
 		chart.setChartDatasets(chartDataSet);
 		return chart;
 
@@ -118,7 +134,7 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		List<Integer> intinList = new ArrayList<Integer>();
 		List<Integer> joinedList = new ArrayList<Integer>();
 		List<Integer> offinselectionList = new ArrayList<Integer>();
-		List<Integer> onholdList = new ArrayList<Integer>();
+		List<Integer> offerReleasedList = new ArrayList<Integer>();
 		List<Integer> screeningInList = new ArrayList<Integer>();
 		List<ChartDataSet> chartDataSet = new ArrayList<ChartDataSet>();
 		int size = 0;
@@ -150,12 +166,12 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 			} else
 				offinselectionList.add(0);
 			if (null != valueDataset.get("Offer Released") && valueDataset.get("Offer Released").size() > 0) {
-				onholdList.add(valueDataset.get("Offer Released").size());
+				offerReleasedList.add(valueDataset.get("Offer Released").size());
 				if (valueDataset.get("Offer Released").size() > size) {
 					size = valueDataset.get("Offer Released").size();
 				}
 			} else
-				onholdList.add(0);
+				offerReleasedList.add(0);
 			if (null != valueDataset.get("Screening in Progress")
 					&& valueDataset.get("Screening in Progress").size() > 0) {
 				screeningInList.add(valueDataset.get("Screening in Progress").size());
@@ -183,7 +199,7 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 
 		ChartDataSet dataset4 = new ChartDataSet();
 		dataset4.setLabel("Offer Released");
-		dataset4.setData(onholdList);
+		dataset4.setData(offerReleasedList);
 		chartDataSet.add(dataset4);
 
 		ChartDataSet dataset5 = new ChartDataSet();
