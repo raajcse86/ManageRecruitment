@@ -219,12 +219,16 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 	@Override
 	public CandidatureDetails updateCandidatureDetails(String id, CandidatureDetails empDetails) {
 		Optional<CandidatureDetails> emp = candidatureDetailsRepository.findById(id);
-		CandidatureDetails details = emp.get();
-		// details.setName(empDetails.getName());
-		// details.setEmail(empDetails.getEmail());
-		// details.setStatus(empDetails.getStatus());
-		return candidatureDetailsRepository.save(details);
-
+		/*
+		 * CandidatureDetails details = emp.get(); //
+		 * details.setName(empDetails.getName()); //
+		 * details.setEmail(empDetails.getEmail()); //
+		 * details.setStatus(empDetails.getStatus());
+		 */		
+		if(emp.isPresent())
+			return candidatureDetailsRepository.save(empDetails);
+		else
+			return null;
 	}
 
 	@Override
