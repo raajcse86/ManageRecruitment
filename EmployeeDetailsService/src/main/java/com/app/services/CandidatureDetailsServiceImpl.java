@@ -112,7 +112,12 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 			chartDataSet.add(dataset);
 
 		}
-		chart.setYaxisScale(size+2);
+		if(size%2==1) {
+			chart.setYaxisScale(size+1);
+		}else {
+			chart.setYaxisScale(size+2);
+		}
+		
 		chart.setChartDatasets(chartDataSet);
 		return chart;
 
