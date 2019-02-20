@@ -110,7 +110,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 				for (CandidatureDetails details : candidatureDetails) {
 					try {
 						if (details.getProfileStatus().equalsIgnoreCase("Active")) {
-							
+
 							if (details.getFinalStatus().equalsIgnoreCase("Interviews in Progress")) {
 								interviewInProgress = interviewInProgress + 1;
 							} else if (details.getFinalStatus().equalsIgnoreCase("Joined")) {
@@ -130,19 +130,20 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 						e.printStackTrace();
 					}
 				}
+				summary.setClientName(clientDetail.getClientName());
+				summary.setContractMechanism(clientDetail.getContractMechanism());
+				summary.setInterviewInProgress(interviewInProgress);
+				summary.setJoined(joined);
+				summary.setLeadName(clientDetail.getLeadName());
+				summary.setLocation(clientDetail.getLocation());
+				summary.setOfferInProgress(offerInProgress);
+				summary.setOfferReleased(offerReleased);
+				summary.setScreeningInProgress(screeningInProgress);
+				summary.setSkill(clientDetail.getSkill());
+				summary.setTarget(Integer.valueOf(clientDetail.getTarget()));
+				summaryList.add(summary);
 			}
-			summary.setClientName(clientDetail.getClientName());
-			summary.setContractMechanism(clientDetail.getContractMechanism());
-			summary.setInterviewInProgress(interviewInProgress);
-			summary.setJoined(joined);
-			summary.setLeadName(clientDetail.getLeadName());
-			summary.setLocation(clientDetail.getLocation());
-			summary.setOfferInProgress(offerInProgress);
-			summary.setOfferReleased(offerReleased);
-			summary.setScreeningInProgress(screeningInProgress);
-			summary.setSkill(clientDetail.getSkill());
-			summary.setTarget(Integer.valueOf(clientDetail.getTarget()));
-			summaryList.add(summary);
+
 		}
 
 		return summaryList;
