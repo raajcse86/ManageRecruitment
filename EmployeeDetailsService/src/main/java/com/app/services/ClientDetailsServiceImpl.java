@@ -34,9 +34,24 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 	}
 
 	@Override
-	public void save(ClientDetails clientDetails) {
+	public List<ClientDetails> save(ClientDetails clientDetails) {
+
+		List<ClientDetails> clientDetailsFrmDb = clientDetailsRepository
+				.findByClientName(clientDetails.getClientName());
+		if (clientDetailsFrmDb.size() > 0) {
+			clientDetails.setCreatedDate(clientDetailsFrmDb.get(0).getCreatedDate());
+			clientDetailsRepository.deleteAll(clientDetailsFrmDb);
+			clientDetails.setUpdateDate(new DateTime().plusHours(5).plusMinutes(50).toDate());
+			clientDetailsRepository.save(clientDetails);
+		} else {
+			clientDetails.setCreatedDate(new DateTime().plusHours(5).plusMinutes(30).toDate());
+			clientDetailsRepository.save(clientDetails);
+		}
+
 		clientDetails.setCreatedDate(new DateTime().plusHours(5).plusMinutes(30).toDate());
 		clientDetailsRepository.save(clientDetails);
+
+		return clientDetailsRepository.findAll();
 	}
 
 	@Override
@@ -45,16 +60,34 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 	}
 
 	@Override
-	public ClientDetails updateClientDetails(String id, ClientDetails clientDetails) {
-		Optional<ClientDetails> client = clientDetailsRepository.findById(id);
-		ClientDetails details = client.get();
-		return clientDetailsRepository.save(details);
+	public List<ClientDetails> updateClientDetails(ClientDetails clientDetails) {
+		List<ClientDetails> clientsFromDb = clientDetailsRepository.findByClientName(clientDetails.getClientName());
+
+		if (clientsFromDb.size() > 0) {
+			clientDetails.setCreatedDate(clientsFromDb.get(0).getCreatedDate());
+			clientDetailsRepository.deleteAll(clientsFromDb);
+			clientDetails.setUpdateDate(new DateTime().plusHours(5).plusMinutes(50).toDate());
+			clientDetailsRepository.save(clientDetails);
+		} else {
+			clientDetails.setCreatedDate(new DateTime().plusHours(5).plusMinutes(30).toDate());
+			clientDetailsRepository.save(clientDetails);
+		}
+
+		return clientDetailsRepository.findAll();
 	}
 
 	@Override
-	public void deleteClientDetails(String id) {
+	public List<ClientDetails> deleteClient(String id) {
 		clientDetailsRepository.deleteById(id);
 
+		return clientDetailsRepository.findAll();
+	}
+
+	@Override
+	public List<ClientDetails> deleteClients(List<ClientDetails> clientDetails) {
+		clientDetailsRepository.deleteAll(clientDetails);
+
+		return clientDetailsRepository.findAll();
 	}
 
 	@Override

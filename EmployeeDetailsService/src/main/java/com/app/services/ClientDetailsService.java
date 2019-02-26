@@ -15,21 +15,22 @@ public interface ClientDetailsService {
 
 	List<ClientDetails> findAll();
 
-	void save(ClientDetails clientDetails);
-	
+	 List<ClientDetails> save(ClientDetails clientDetails);
+
 	public void saveAll(List<ClientDetails> clientDetails);
 
 	Optional<ClientDetails> findClientDetailsById(String id);
-	
+
 	List<ClientDetails> findAllClients();
 
-	ClientDetails updateClientDetails(String id, ClientDetails clientDetails);
+	List<ClientDetails> updateClientDetails(ClientDetails clientDetails);
 
-	void deleteClientDetails(String id);
+	List<ClientDetails> deleteClient(String id);
+
+	List<ClientDetails> deleteClients(List<ClientDetails> clientDetails);
 
 	List<ClientDetails> updateListOfClientDetails(List<ClientDetails> clientDetails);
-	
+
 	public List<Summary> getSummaryData();
-	
 
 }
