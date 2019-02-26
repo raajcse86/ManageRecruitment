@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.models.ClientDetails;
+import com.app.models.ExceptionModel;
 import com.app.models.Summary;
 import com.app.services.ClientDetailsService;
+import com.app.services.InvalidExcelFormatException;
 import com.google.gson.Gson;
 
 @RestController
@@ -31,20 +33,24 @@ public class ClientDetailsController {
 	private ClientDetailsService clientDetailsService;
 
 	@PostMapping("/save")
-	public ResponseEntity<List<ClientDetails>> save(@Valid @RequestBody ClientDetails clientDetails) {
+	public ResponseEntity<?> save(@Valid @RequestBody ClientDetails clientDetails) {
 
-		ResponseEntity<List<ClientDetails>> response = null;
-		List<ClientDetails> clientDetails2 = null;
 		try {
-			clientDetails2 = clientDetailsService.save(clientDetails);
-			response = new ResponseEntity<>(clientDetails2, HttpStatus.CREATED);
+			List<ClientDetails> clientDetails2 = clientDetailsService.save(clientDetails);
+			return new ResponseEntity<>(clientDetails2, HttpStatus.CREATED);
+		} catch (InvalidExcelFormatException e) {
+			ExceptionModel exceptionModel = new ExceptionModel();
+			exceptionModel.setCode(401);
+			exceptionModel.setMessage(e.getMessage());
+			exceptionModel.setStatus("Failed");
+			return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
-
-			response = new ResponseEntity<>(clientDetails2, HttpStatus.INTERNAL_SERVER_ERROR);
-
+			ExceptionModel exceptionModel = new ExceptionModel();
+			exceptionModel.setCode(401);
+			exceptionModel.setMessage(ex.getMessage());
+			exceptionModel.setStatus("Failed");
+			return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.BAD_REQUEST);
 		}
-		System.out.println(new Gson().toJson(response));
-		return response;
 
 	}
 
@@ -74,7 +80,7 @@ public class ClientDetailsController {
 	public List<ClientDetails> deleteAll(@RequestBody List<ClientDetails> clientDetails) {
 		return clientDetailsService.deleteClients(clientDetails);
 	}
-	
+
 	@PostMapping("/update")
 	public List<ClientDetails> updateClient(@RequestBody ClientDetails clientDetails) {
 		return clientDetailsService.updateClientDetails(clientDetails);

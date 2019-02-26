@@ -34,15 +34,12 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 	}
 
 	@Override
-	public List<ClientDetails> save(ClientDetails clientDetails) {
+	public List<ClientDetails> save(ClientDetails clientDetails) throws InvalidExcelFormatException {
 
 		List<ClientDetails> clientDetailsFrmDb = clientDetailsRepository
 				.findByClientName(clientDetails.getClientName());
 		if (clientDetailsFrmDb.size() > 0) {
-			clientDetails.setCreatedDate(clientDetailsFrmDb.get(0).getCreatedDate());
-			clientDetailsRepository.deleteAll(clientDetailsFrmDb);
-			clientDetails.setUpdateDate(new DateTime().plusHours(5).plusMinutes(50).toDate());
-			clientDetailsRepository.save(clientDetails);
+			throw new InvalidExcelFormatException("Client Name is already available");
 		} else {
 			clientDetails.setCreatedDate(new DateTime().plusHours(5).plusMinutes(30).toDate());
 			clientDetailsRepository.save(clientDetails);

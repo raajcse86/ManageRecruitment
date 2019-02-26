@@ -15,7 +15,7 @@ public interface ClientDetailsService {
 
 	List<ClientDetails> findAll();
 
-	 List<ClientDetails> save(ClientDetails clientDetails);
+	 List<ClientDetails> save(ClientDetails clientDetails) throws InvalidExcelFormatException;
 
 	public void saveAll(List<ClientDetails> clientDetails);
 
