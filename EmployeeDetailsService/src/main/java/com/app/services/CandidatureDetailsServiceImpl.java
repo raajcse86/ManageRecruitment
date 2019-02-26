@@ -38,6 +38,13 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 	public List<CandidatureDetails> findAll() {
 		return candidatureDetailsRepository.findAll();
 	}
+	
+	
+	@Override
+	public List<CandidatureDetails> deleteCandidate(List<CandidatureDetails> candidatureDetail) {
+		candidatureDetailsRepository.deleteAll(candidatureDetail);
+		return candidatureDetailsRepository.findAll();
+	} 
 
 	@Override
 	public Chart findCandidatesByCriteria(String criteria) {

@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.models.CandidatureDetails;
 import com.app.models.Chart;
-import com.app.models.EmployeeDetails;
 import com.app.models.Reports;
 import com.app.services.CandidatureDetailsService;
 /**
@@ -86,15 +85,18 @@ public class CandidatureDetailsController {
         		.orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping(value="/candidatureDetails/{id}")
-    public ResponseEntity<?> deleteCandidatureDetails(@PathVariable("id") String id) {
-        try {
-        	candidatureDetailsService.deleteCandidatureDetails(id);
-            return ResponseEntity.ok().build();
-        }catch(Exception e) {
-        	return ResponseEntity.notFound().build();
-        }
-         
-    }
-	
+    	@DeleteMapping(value = "/candidatureDetails/{id}")
+    		public List<CandidatureDetails> deleteCandidatureDetails(@PathVariable("id") String id) {
+
+    			candidatureDetailsService.deleteCandidatureDetails(id);
+    			return candidatureDetailsService.findAll();
+
+    		}
+
+    		@PostMapping("/candidatureDetails/delete")
+    		public List<CandidatureDetails> deleteCandidate(List<CandidatureDetails> candidatureDetails) {
+    			return candidatureDetailsService.deleteCandidate(candidatureDetails);
+    		} 
+    	 
+
 }

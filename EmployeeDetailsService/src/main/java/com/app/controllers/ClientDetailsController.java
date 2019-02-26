@@ -22,7 +22,6 @@ import com.app.models.ExceptionModel;
 import com.app.models.Summary;
 import com.app.services.ClientDetailsService;
 import com.app.services.InvalidExcelFormatException;
-import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/clientDetails")
