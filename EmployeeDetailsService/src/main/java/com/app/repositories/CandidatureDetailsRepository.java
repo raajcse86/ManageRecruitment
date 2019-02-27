@@ -4,6 +4,7 @@
 package com.app.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,6 @@ public interface CandidatureDetailsRepository extends MongoRepository<Candidatur
 	public List<CandidatureDetails> findByClient(String name);
 	
 	public List<CandidatureDetails> findByCandidateNameAndEmailId(String candidateName, String emailId);
-
+	
+	public Optional<CandidatureDetails> findByEmailId(String emailId);
 }

@@ -227,6 +227,12 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 
 	@Override
 	public CandidatureDetails save(CandidatureDetails CandidatureDetails) {
+		Optional<CandidatureDetails> candidate = candidatureDetailsRepository.findByEmailId(CandidatureDetails.getEmailId());
+		if(candidate.isPresent()) {
+			candidatureDetailsRepository.delete(candidate.get());
+		return candidatureDetailsRepository.save(CandidatureDetails);
+		}
+		else
 		return candidatureDetailsRepository.save(CandidatureDetails);
 	}
 
