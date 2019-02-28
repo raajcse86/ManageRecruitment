@@ -37,7 +37,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 	public List<ClientDetails> save(ClientDetails clientDetails) throws InvalidExcelFormatException {
 
 		List<ClientDetails> clientDetailsFrmDb = clientDetailsRepository
-				.findByClientName(clientDetails.getClientName());
+				.findByClientNameIgnoreCase(clientDetails.getClientName());
 		if (clientDetailsFrmDb.size() > 0) {
 			throw new InvalidExcelFormatException("Client Name is already available");
 		} else {
@@ -58,7 +58,8 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 
 	@Override
 	public List<ClientDetails> updateClientDetails(ClientDetails clientDetails) {
-		List<ClientDetails> clientsFromDb = clientDetailsRepository.findByClientName(clientDetails.getClientName());
+		List<ClientDetails> clientsFromDb = clientDetailsRepository
+				.findByClientNameIgnoreCase(clientDetails.getClientName());
 
 		if (clientsFromDb.size() > 0) {
 			clientDetails.setCreatedDate(clientsFromDb.get(0).getCreatedDate());
@@ -93,7 +94,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 		for (ClientDetails clientDetails : clientDetailsFrmExternalSystem) {
 
 			List<ClientDetails> clientDetailsFrmDb = clientDetailsRepository
-					.findByClientName(clientDetails.getClientName());
+					.findByClientNameIgnoreCase(clientDetails.getClientName());
 
 			if (clientDetailsFrmDb.size() > 0) {
 				clientDetails.setCreatedDate(clientDetailsFrmDb.get(0).getCreatedDate());

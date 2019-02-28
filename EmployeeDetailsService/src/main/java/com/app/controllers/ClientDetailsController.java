@@ -46,7 +46,7 @@ public class ClientDetailsController {
 		} catch (Exception ex) {
 			ExceptionModel exceptionModel = new ExceptionModel();
 			exceptionModel.setCode(401);
-			exceptionModel.setMessage(ex.getMessage());
+			exceptionModel.setMessage("Error");
 			exceptionModel.setStatus("Failed");
 			return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.BAD_REQUEST);
 		}
