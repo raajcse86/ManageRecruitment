@@ -3,7 +3,8 @@ package com.app.models;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
-
+import org.springframework.data.mongodb.core.mapping.Document;
+@Document
 public class RegisterDetails implements Comparable<RegisterDetails>{
 
 	@NotBlank
@@ -25,6 +26,8 @@ public class RegisterDetails implements Comparable<RegisterDetails>{
 	
 	private String comments;
 	private String approver;
+	
+	private String role;
 
 	public String getFirstName() {
 		return firstName;
@@ -90,6 +93,15 @@ public class RegisterDetails implements Comparable<RegisterDetails>{
 			this.approver = approver;
 	}
 
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	@Override
 	public int compareTo(RegisterDetails user) {
 		if (user.getStatus()=="Pending for approval")
@@ -98,4 +110,5 @@ public class RegisterDetails implements Comparable<RegisterDetails>{
 			return -1;
 	}
 
+	
 }
