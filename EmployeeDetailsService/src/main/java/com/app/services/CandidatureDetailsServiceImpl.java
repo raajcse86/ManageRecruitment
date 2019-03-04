@@ -4,11 +4,9 @@
 package com.app.services;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -40,6 +38,13 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 	public List<CandidatureDetails> findAll() {
 		return candidatureDetailsRepository.findAll();
 	}
+	
+	
+	@Override
+	public List<CandidatureDetails> deleteCandidate(List<CandidatureDetails> candidatureDetail) {
+		candidatureDetailsRepository.deleteAll(candidatureDetail);
+		return candidatureDetailsRepository.findAll();
+	} 
 
 	@Override
 	public Chart findCandidatesByCriteria(String criteria) {
@@ -61,11 +66,11 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		chartLabels.add("Interviews in Progress");
 		chartLabels.add("Joined");
 		chartLabels.add("Offer in Progress");
-		chartLabels.add("On hold");
-		chartLabels.add("Rejected/Not shortlisted");
+		chartLabels.add("Offer Released");
 		chartLabels.add("Screening in Progress");
 		chart.setChartLabels(chartLabels);
 		List<ChartDataSet> chartDataSet = new ArrayList<ChartDataSet>();
+		int size = 0;
 		for (Map.Entry<String, Map<String, List<CandidatureDetails>>> superMap : candidatesByCityandCriteria
 				.entrySet()) {
 			ChartDataSet dataset = new ChartDataSet();
@@ -74,37 +79,52 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 					superMap.getValue());
 			List<Integer> selectionList = new ArrayList<Integer>();
 			if (null != valueDataset.get("Interviews in Progress")
-					&& valueDataset.get("Interviews in Progress").size() > 0)
+					&& valueDataset.get("Interviews in Progress").size() > 0) {
 				selectionList.add(valueDataset.get("Interviews in Progress").size());
-
-			else
+				if (valueDataset.get("Interviews in Progress").size() > size)
+					size = valueDataset.get("Interviews in Progress").size();
+			} else {
 				selectionList.add(0);
-			if (null != valueDataset.get("Joined") && valueDataset.get("Joined").size() > 0)
+			}
+			if (null != valueDataset.get("Joined") && valueDataset.get("Joined").size() > 0) {
 				selectionList.add(valueDataset.get("Joined").size());
-			else
+				if (valueDataset.get("Joined").size() > size)
+					size = valueDataset.get("Joined").size();
+			} else {
 				selectionList.add(0);
-			if (null != valueDataset.get("Offer in Progress") && valueDataset.get("Offer in Progress").size() > 0)
+			}
+			if (null != valueDataset.get("Offer in Progress") && valueDataset.get("Offer in Progress").size() > 0) {
 				selectionList.add(valueDataset.get("Offer in Progress").size());
-			else
+				if (valueDataset.get("Offer in Progress").size() > size)
+					size = valueDataset.get("Offer in Progress").size();
+			} else {
 				selectionList.add(0);
-			if (null != valueDataset.get("On hold") && valueDataset.get("On hold").size() > 0)
-				selectionList.add(valueDataset.get("On hold").size());
-			else
+			}
+			if (null != valueDataset.get("Offer Released") && valueDataset.get("Offer Released").size() > 0) {
+				selectionList.add(valueDataset.get("Offer Released").size());
+				if (valueDataset.get("Offer Released").size() > size)
+					size = valueDataset.get("Offer Released").size();
+			} else {
 				selectionList.add(0);
-			if (null != valueDataset.get("Rejected/Not shortlisted")
-					&& valueDataset.get("Rejected/Not shortlisted").size() > 0)
-				selectionList.add(valueDataset.get("Rejected/Not shortlisted").size());
-			else
-				selectionList.add(0);
+			}
 			if (null != valueDataset.get("Screening in Progress")
-					&& valueDataset.get("Screening in Progress").size() > 0)
+					&& valueDataset.get("Screening in Progress").size() > 0) {
 				selectionList.add(valueDataset.get("Screening in Progress").size());
-			else
+				if (valueDataset.get("Screening in Progress").size() > size)
+					size = valueDataset.get("Screening in Progress").size();
+			} else {
 				selectionList.add(0);
+			}
 			dataset.setData(selectionList);
 			chartDataSet.add(dataset);
 
 		}
+		if(size%2==1) {
+			chart.setYaxisScale(size+1);
+		}else {
+			chart.setYaxisScale(size+2);
+		}
+		
 		chart.setChartDatasets(chartDataSet);
 		return chart;
 
@@ -126,7 +146,7 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		List<Integer> intinList = new ArrayList<Integer>();
 		List<Integer> joinedList = new ArrayList<Integer>();
 		List<Integer> offinselectionList = new ArrayList<Integer>();
-		List<Integer> onholdList = new ArrayList<Integer>();
+		List<Integer> offerReleasedList = new ArrayList<Integer>();
 		List<Integer> screeningInList = new ArrayList<Integer>();
 		List<ChartDataSet> chartDataSet = new ArrayList<ChartDataSet>();
 		int size = 0;
@@ -157,13 +177,13 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 				}
 			} else
 				offinselectionList.add(0);
-			if (null != valueDataset.get("On hold") && valueDataset.get("On hold").size() > 0) {
-				onholdList.add(valueDataset.get("On hold").size());
-				if (valueDataset.get("On hold").size() > size) {
-					size = valueDataset.get("On hold").size();
+			if (null != valueDataset.get("Offer Released") && valueDataset.get("Offer Released").size() > 0) {
+				offerReleasedList.add(valueDataset.get("Offer Released").size());
+				if (valueDataset.get("Offer Released").size() > size) {
+					size = valueDataset.get("Offer Released").size();
 				}
 			} else
-				onholdList.add(0);
+				offerReleasedList.add(0);
 			if (null != valueDataset.get("Screening in Progress")
 					&& valueDataset.get("Screening in Progress").size() > 0) {
 				screeningInList.add(valueDataset.get("Screening in Progress").size());
@@ -190,8 +210,8 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		chartDataSet.add(dataset3);
 
 		ChartDataSet dataset4 = new ChartDataSet();
-		dataset4.setLabel("On hold");
-		dataset4.setData(onholdList);
+		dataset4.setLabel("Offer Released");
+		dataset4.setData(offerReleasedList);
 		chartDataSet.add(dataset4);
 
 		ChartDataSet dataset5 = new ChartDataSet();
@@ -207,6 +227,12 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 
 	@Override
 	public CandidatureDetails save(CandidatureDetails CandidatureDetails) {
+		Optional<CandidatureDetails> candidate = candidatureDetailsRepository.findByEmailId(CandidatureDetails.getEmailId());
+		if(candidate.isPresent()) {
+			candidatureDetailsRepository.delete(candidate.get());
+		return candidatureDetailsRepository.save(CandidatureDetails);
+		}
+		else
 		return candidatureDetailsRepository.save(CandidatureDetails);
 	}
 
@@ -219,31 +245,35 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 	@Override
 	public CandidatureDetails updateCandidatureDetails(String id, CandidatureDetails empDetails) {
 		Optional<CandidatureDetails> emp = candidatureDetailsRepository.findById(id);
-		CandidatureDetails details = emp.get();
-		// details.setName(empDetails.getName());
-		// details.setEmail(empDetails.getEmail());
-		// details.setStatus(empDetails.getStatus());
-		return candidatureDetailsRepository.save(details);
-
+		/*
+		 * CandidatureDetails details = emp.get(); //
+		 * details.setName(empDetails.getName()); //
+		 * details.setEmail(empDetails.getEmail()); //
+		 * details.setStatus(empDetails.getStatus());
+		 */		
+		if(emp.isPresent())
+			return candidatureDetailsRepository.save(empDetails);
+		else
+			return null;
 	}
 
 	@Override
 	public List<CandidatureDetails> updateListOfCandidatureDetails(List<CandidatureDetails> candidatureDetails) {
-		
+
 		for (CandidatureDetails candidatureDetail : candidatureDetails) {
-			
-				List<CandidatureDetails> candidatureDetails1 = candidatureDetailsRepository.findByCandidateNameAndEmailId(candidatureDetail.getCandidateName(), candidatureDetail.getEmailId());
-				if(candidatureDetails1!=null && candidatureDetails1.size()>0) {
-					candidatureDetailsRepository.deleteAll(candidatureDetails1);
-					candidatureDetailsRepository.save(candidatureDetail);
-				}else {
-					candidatureDetailsRepository.save(candidatureDetail);
-				}
-		
+
+			List<CandidatureDetails> candidatureDetails1 = candidatureDetailsRepository.findByCandidateNameAndEmailId(
+					candidatureDetail.getCandidateName(), candidatureDetail.getEmailId());
+			if (candidatureDetails1 != null && candidatureDetails1.size() > 0) {
+				candidatureDetailsRepository.deleteAll(candidatureDetails1);
+				candidatureDetailsRepository.save(candidatureDetail);
+			} else {
+				candidatureDetailsRepository.save(candidatureDetail);
+			}
 
 		}
-		
-			return candidatureDetailsRepository.findAll();
+
+		return candidatureDetailsRepository.findAll();
 	}
 
 	@Override
@@ -261,10 +291,8 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 			type = "Joined";
 		else if (type.equalsIgnoreCase("OffInProg"))
 			type = "Offer in Progress";
-		else if (type.equalsIgnoreCase("ONHold"))
-			type = "On hold";
-		else if (type.equalsIgnoreCase("Rejected"))
-			type = "Rejected/Not shortlisted";
+		else if (type.equalsIgnoreCase("OfferReleased"))
+			type = "Offer Released";
 		else
 			type = "Screening in Progress";
 		return getFilterValues(criteria, category, type);

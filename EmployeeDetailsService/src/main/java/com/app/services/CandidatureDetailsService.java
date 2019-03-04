@@ -15,6 +15,7 @@ import com.app.models.Reports;
  *
  */
 public interface CandidatureDetailsService {
+	List<CandidatureDetails> deleteCandidate(List<CandidatureDetails> candidatureDetail); 
 	List<CandidatureDetails> findAll();
     CandidatureDetails save(CandidatureDetails CandidatureDetails);
 	Optional<CandidatureDetails> getCandidatureDetailsById(String id);
