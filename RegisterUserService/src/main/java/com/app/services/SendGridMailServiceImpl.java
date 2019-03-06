@@ -35,6 +35,7 @@ public class SendGridMailServiceImpl implements SendGridMailService {
 	private static final String APPROVAL_REQUEST = "Registration request for approval";
 	private static final String APPROVED = "Registration request approved";
 	private static final String REJECTED = "Registration request rejected";
+	private static final String ROLE_ADMIN="ROLE_ADMIN";
 	
 
 	@Override
@@ -74,8 +75,14 @@ public class SendGridMailServiceImpl implements SendGridMailService {
 		    mailBody.append("<font color=blue><a href="+loginURL+">Login now </a></font>");
 			break;
 		case APPROVED:
+			String userType=null;
+			if(ROLE_ADMIN.contentEquals(details.getRole()))
+					userType="Admin";
+			else 
+					userType="Normal User";
+			
 			mailBody.append("<i>Registration request is approved</i><br>");
-			mailBody.append("<b>Your request is approved, Click on below link to login with username "+details.getUsername()+"</b><br>");
+			mailBody.append("<b>Your request is approved as "+userType+", Click on below link to login with username "+details.getUsername()+"</b><br>");
 		    mailBody.append("<font color=blue><a href="+loginURL+">Login now </a></font>");
 			break;
 		case REJECTED:
