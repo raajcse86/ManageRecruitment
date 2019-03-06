@@ -112,20 +112,26 @@ public class UploadFileController {
 
 		} catch (InvalidExcelFormatException e1) {
 			ExceptionModel exceptionModel = new ExceptionModel();
-			exceptionModel.setCode(400);
+			exceptionModel.setCode(401);
 			exceptionModel.setMessage(e1.getMessage());
 			exceptionModel.setStatus("Failed");
 			return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.BAD_REQUEST);
 		} catch (InvalidFormatException e) {
 			ExceptionModel exceptionModel = new ExceptionModel();
-			exceptionModel.setCode(400);
+			exceptionModel.setCode(401);
 			exceptionModel.setMessage(e.getMessage());
 			exceptionModel.setStatus("Failed");
 			return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.BAD_REQUEST);
 		} catch (IOException e) {
 			ExceptionModel exceptionModel = new ExceptionModel();
-			exceptionModel.setCode(400);
+			exceptionModel.setCode(401);
 			exceptionModel.setMessage(e.getMessage());
+			exceptionModel.setStatus("Failed");
+			return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.BAD_REQUEST);
+		}catch(Exception e) {
+			ExceptionModel exceptionModel = new ExceptionModel();
+			exceptionModel.setCode(401);
+			exceptionModel.setMessage("Something goes wrong");
 			exceptionModel.setStatus("Failed");
 			return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.BAD_REQUEST);
 		}

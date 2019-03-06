@@ -38,13 +38,12 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 	public List<CandidatureDetails> findAll() {
 		return candidatureDetailsRepository.findAll();
 	}
-	
-	
+
 	@Override
 	public List<CandidatureDetails> deleteCandidate(List<CandidatureDetails> candidatureDetail) {
 		candidatureDetailsRepository.deleteAll(candidatureDetail);
 		return candidatureDetailsRepository.findAll();
-	} 
+	}
 
 	@Override
 	public Chart findCandidatesByCriteria(String criteria) {
@@ -119,12 +118,12 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 			chartDataSet.add(dataset);
 
 		}
-		if(size%2==1) {
-			chart.setYaxisScale(size+1);
-		}else {
-			chart.setYaxisScale(size+2);
+		if (size % 2 == 1) {
+			chart.setYaxisScale(size + 1);
+		} else {
+			chart.setYaxisScale(size + 2);
 		}
-		
+
 		chart.setChartDatasets(chartDataSet);
 		return chart;
 
@@ -227,13 +226,13 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 
 	@Override
 	public CandidatureDetails save(CandidatureDetails CandidatureDetails) {
-		Optional<CandidatureDetails> candidate = candidatureDetailsRepository.findByEmailId(CandidatureDetails.getEmailId());
-		if(candidate.isPresent()) {
+		Optional<CandidatureDetails> candidate = candidatureDetailsRepository
+				.findByEmailId(CandidatureDetails.getEmailId());
+		if (candidate.isPresent()) {
 			candidatureDetailsRepository.delete(candidate.get());
-		return candidatureDetailsRepository.save(CandidatureDetails);
-		}
-		else
-		return candidatureDetailsRepository.save(CandidatureDetails);
+			return candidatureDetailsRepository.save(CandidatureDetails);
+		} else
+			return candidatureDetailsRepository.save(CandidatureDetails);
 	}
 
 	@Override
@@ -250,8 +249,8 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 		 * details.setName(empDetails.getName()); //
 		 * details.setEmail(empDetails.getEmail()); //
 		 * details.setStatus(empDetails.getStatus());
-		 */		
-		if(emp.isPresent())
+		 */
+		if (emp.isPresent())
 			return candidatureDetailsRepository.save(empDetails);
 		else
 			return null;
@@ -264,6 +263,10 @@ public class CandidatureDetailsServiceImpl implements CandidatureDetailsService 
 
 			List<CandidatureDetails> candidatureDetails1 = candidatureDetailsRepository.findByCandidateNameAndEmailId(
 					candidatureDetail.getCandidateName(), candidatureDetail.getEmailId());
+			
+			if (candidatureDetail.getFinalStatus() == null || candidatureDetail.getFinalStatus().trim().equals("")) {
+				candidatureDetail.setFinalStatus("Screening in Progress");
+			}
 			if (candidatureDetails1 != null && candidatureDetails1.size() > 0) {
 				candidatureDetailsRepository.deleteAll(candidatureDetails1);
 				candidatureDetailsRepository.save(candidatureDetail);
