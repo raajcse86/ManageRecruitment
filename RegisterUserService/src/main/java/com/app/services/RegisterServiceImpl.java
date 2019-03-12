@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.models.RegisterDetails;
 import com.app.repositories.RegisterRepository;
+import com.twilio.twiml.voice.Sms;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -21,6 +22,9 @@ public class RegisterServiceImpl implements RegisterService {
 
 	@Autowired
 	SendGridMailService sendGridMailService;
+	
+	@Autowired
+	private SendSMSService sendSMSService;
 
 	private static final String REGISTRATION = "Registration successfull";
 	private static final String APPROVAL_REQUEST = "Registration request for approval";
@@ -68,12 +72,14 @@ public class RegisterServiceImpl implements RegisterService {
 				if("Approved".contentEquals(updatedUser.getStatus())) {
 				new Thread(() -> {
 						sendGridMailService.sendEmail(updatedUser.getEmailId(), APPROVED, updatedUser);
+						sendSMSService.sendSMS(APPROVED, updatedUser);
 					
 				}).start();
 				
 				}else if ("Rejected".contentEquals(updatedUser.getStatus())) {
 					new Thread(() -> {
 						sendGridMailService.sendEmail(updatedUser.getEmailId(), REJECTED, updatedUser);
+						sendSMSService.sendSMS(REJECTED, updatedUser);
 				}).start();
 				}
 			}
