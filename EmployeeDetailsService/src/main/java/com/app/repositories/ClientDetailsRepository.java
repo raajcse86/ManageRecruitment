@@ -11,8 +11,8 @@ import com.app.models.ClientDetails;
  *
  */
 
-public interface ClientDetailsRepository extends MongoRepository<ClientDetails, String>{
+public interface ClientDetailsRepository extends MongoRepository<ClientDetails, String> {
 	
-	public List<ClientDetails> findByClientName(String name);
+	public List<ClientDetails> findByClientNameIgnoreCase(String name);
 
 }

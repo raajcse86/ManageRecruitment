@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.services"})
+@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.services","com.app.config"})
 @EnableMongoRepositories(value= {"com.app.repositories"})
 public class Main extends SpringBootServletInitializer{
 

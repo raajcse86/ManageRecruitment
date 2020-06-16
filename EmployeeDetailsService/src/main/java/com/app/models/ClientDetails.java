@@ -125,5 +125,12 @@ public class ClientDetails {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ClientDetails [id=" + id + ", clientName=" + clientName + ", leadName=" + leadName + ", location="
+				+ location + ", skill=" + skill + ", contractMechanism=" + contractMechanism + ", target=" + target
+				+ ", createdDate=" + createdDate + ", updateDate=" + updateDate + "]";
+	}
+
 
 }

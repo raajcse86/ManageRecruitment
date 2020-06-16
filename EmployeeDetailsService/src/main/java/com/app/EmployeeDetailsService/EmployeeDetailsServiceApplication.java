@@ -7,12 +7,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.app.services.EmployeeDetailsServiceImpl;
 
 @SpringBootApplication 
-@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.services","com.app.jwt","com.app.jwt.resource"})
+@ComponentScan(value={"com.app.controllers","com.app.repositories","com.app.util","com.app.services","com.app.jwt","com.app.jwt.resource"})
 @EnableMongoRepositories(value= {"com.app.repositories"})
+@EnableScheduling
 public class EmployeeDetailsServiceApplication extends SpringBootServletInitializer {
 
 	

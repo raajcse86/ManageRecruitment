@@ -1,7 +1,6 @@
 package com.app.services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,9 +34,21 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 	}
 
 	@Override
-	public void save(ClientDetails clientDetails) {
+	public List<ClientDetails> save(ClientDetails clientDetails) throws InvalidExcelFormatException {
+
+		List<ClientDetails> clientDetailsFrmDb = clientDetailsRepository
+				.findByClientNameIgnoreCase(clientDetails.getClientName());
+		if (clientDetailsFrmDb.size() > 0) {
+			throw new InvalidExcelFormatException("Client Name is already available");
+		} else {
+			clientDetails.setCreatedDate(new DateTime().plusHours(5).plusMinutes(30).toDate());
+			clientDetailsRepository.save(clientDetails);
+		}
+
 		clientDetails.setCreatedDate(new DateTime().plusHours(5).plusMinutes(30).toDate());
 		clientDetailsRepository.save(clientDetails);
+
+		return clientDetailsRepository.findAll();
 	}
 
 	@Override
@@ -46,16 +57,35 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 	}
 
 	@Override
-	public ClientDetails updateClientDetails(String id, ClientDetails clientDetails) {
-		Optional<ClientDetails> client = clientDetailsRepository.findById(id);
-		ClientDetails details = client.get();
-		return clientDetailsRepository.save(details);
+	public List<ClientDetails> updateClientDetails(ClientDetails clientDetails) {
+		List<ClientDetails> clientsFromDb = clientDetailsRepository
+				.findByClientNameIgnoreCase(clientDetails.getClientName());
+
+		if (clientsFromDb.size() > 0) {
+			clientDetails.setCreatedDate(clientsFromDb.get(0).getCreatedDate());
+			clientDetailsRepository.deleteAll(clientsFromDb);
+			clientDetails.setUpdateDate(new DateTime().plusHours(5).plusMinutes(50).toDate());
+			clientDetailsRepository.save(clientDetails);
+		} else {
+			clientDetails.setCreatedDate(new DateTime().plusHours(5).plusMinutes(30).toDate());
+			clientDetailsRepository.save(clientDetails);
+		}
+
+		return clientDetailsRepository.findAll();
 	}
 
 	@Override
-	public void deleteClientDetails(String id) {
+	public List<ClientDetails> deleteClient(String id) {
 		clientDetailsRepository.deleteById(id);
 
+		return clientDetailsRepository.findAll();
+	}
+
+	@Override
+	public List<ClientDetails> deleteClients(List<ClientDetails> clientDetails) {
+		clientDetailsRepository.deleteAll(clientDetails);
+
+		return clientDetailsRepository.findAll();
 	}
 
 	@Override
@@ -64,7 +94,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 		for (ClientDetails clientDetails : clientDetailsFrmExternalSystem) {
 
 			List<ClientDetails> clientDetailsFrmDb = clientDetailsRepository
-					.findByClientName(clientDetails.getClientName());
+					.findByClientNameIgnoreCase(clientDetails.getClientName());
 
 			if (clientDetailsFrmDb.size() > 0) {
 				clientDetails.setCreatedDate(clientDetailsFrmDb.get(0).getCreatedDate());
@@ -103,42 +133,48 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 			Integer offerInProgress = 0;
 			Integer interviewInProgress = 0;
 			Integer screeningInProgress = 0;
-			
-			
 
 			List<CandidatureDetails> candidatureDetails = candidatureDetailsRepository
 					.findByClient(clientDetail.getClientName());
-			System.out.println("Sandeep the client name is "+candidatureDetails.size());
 			if (null != candidatureDetails && candidatureDetails.size() > 0) {
+
 				for (CandidatureDetails details : candidatureDetails) {
-					if (details.getProfileStatus().equalsIgnoreCase("Active") ) {
-						if (details.getFinalStatus().equalsIgnoreCase("Interviews in Progress")) {
-							interviewInProgress = interviewInProgress + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Joined")) {
-							joined = joined + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Offer in Progress")) {
-							offerInProgress = offerInProgress + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Offer Released")) {
-							offerReleased = offerReleased + 1;
-						} else if (details.getFinalStatus().equalsIgnoreCase("Screening in Progress")) {
-							screeningInProgress = screeningInProgress + 1;
+					try {
+						if (details.getProfileStatus().equalsIgnoreCase("Active")) {
+
+							if (details.getFinalStatus().equalsIgnoreCase("Interviews in Progress")) {
+								interviewInProgress = interviewInProgress + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Joined")) {
+								joined = joined + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Offer in Progress")) {
+								offerInProgress = offerInProgress + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Offer Released")) {
+								offerReleased = offerReleased + 1;
+							} else if (details.getFinalStatus().equalsIgnoreCase("Screening in Progress")) {
+								screeningInProgress = screeningInProgress + 1;
+							}
 						}
 					}
-				}
 
+					catch (Exception e) {
+						System.out.println("details &&&&&&&&&&& " + details.toString());
+						e.printStackTrace();
+					}
+				}
+				summary.setClientName(clientDetail.getClientName());
+				summary.setContractMechanism(clientDetail.getContractMechanism());
+				summary.setInterviewInProgress(interviewInProgress);
+				summary.setJoined(joined);
+				summary.setLeadName(clientDetail.getLeadName());
+				summary.setLocation(clientDetail.getLocation());
+				summary.setOfferInProgress(offerInProgress);
+				summary.setOfferReleased(offerReleased);
+				summary.setScreeningInProgress(screeningInProgress);
+				summary.setSkill(clientDetail.getSkill());
+				summary.setTarget(Integer.valueOf(clientDetail.getTarget()));
+				summaryList.add(summary);
 			}
-			summary.setClientName(clientDetail.getClientName());
-			summary.setContractMechanism(clientDetail.getContractMechanism());
-			summary.setInterviewInProgress(interviewInProgress);
-			summary.setJoined(joined);
-			summary.setLeadName(clientDetail.getLeadName());
-			summary.setLocation(clientDetail.getLocation());
-			summary.setOfferInProgress(offerInProgress);
-			summary.setOfferReleased(offerReleased);
-			summary.setScreeningInProgress(screeningInProgress);
-			summary.setSkill(clientDetail.getSkill());
-			summary.setTarget(Integer.valueOf(clientDetail.getTarget()));
-			summaryList.add(summary);
+
 		}
 
 		return summaryList;

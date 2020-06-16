@@ -3,12 +3,16 @@
  */
 package com.app.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,13 +22,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.models.CandidatureDetails;
 import com.app.models.Chart;
-import com.app.models.EmployeeDetails;
 import com.app.models.Reports;
 import com.app.services.CandidatureDetailsService;
+
 /**
  * @author Rajasekar.Murugesan
  *
@@ -34,67 +39,84 @@ import com.app.services.CandidatureDetailsService;
 @RequestMapping("/api")
 @CrossOrigin("*")
 public class CandidatureDetailsController {
-	
+
 	@Autowired
 	private CandidatureDetailsService candidatureDetailsService;
-	
 
 	@GetMapping("/candidatureDetails")
-    public List<CandidatureDetails> getAllCandidatureDetailsDetails() {
-		return candidatureDetailsService.findAll();
-    }
-	
+	public List<CandidatureDetails> getAllCandidatureDetailsDetails() {
+
+		List<CandidatureDetails> candidatureDetails = candidatureDetailsService.findAll();
+		candidatureDetailsReport();
+		return candidatureDetails;
+	}
+
 	@GetMapping("/candidatureDetailsBy/{criteria}")
-    public Chart getAllCandidatureDetailsByCriteria(@PathVariable("criteria") String criteria) {
-	   return candidatureDetailsService.findCandidatesByCriteria(criteria);
-    }
-	
+	public Chart getAllCandidatureDetailsByCriteria(@PathVariable("criteria") String criteria) {
+		return candidatureDetailsService.findCandidatesByCriteria(criteria);
+	}
+
 	@GetMapping("/candidatureDetailsBy/reports/{criteria}")
-    public List<Reports> getAllCandidaturReportsByCriteria(@PathVariable("criteria") String criteria) {
-	   return candidatureDetailsService.findCandidatesReports(criteria);
-    }
-	
+	public List<Reports> getAllCandidaturReportsByCriteria(@PathVariable("criteria") String criteria) {
+		return candidatureDetailsService.findCandidatesReports(criteria);
+	}
+
 	@GetMapping("/candidatureDetailsBy/reports/bargraph/{criteria}")
-    public Chart getAllCandidaturReportsByCriteriaBarGraph(@PathVariable("criteria") String criteria) {
-	   return candidatureDetailsService.findCandidatesByCriteriaForReports(criteria);
-    }
-	
+	public Chart getAllCandidaturReportsByCriteriaBarGraph(@PathVariable("criteria") String criteria) {
+		return candidatureDetailsService.findCandidatesByCriteriaForReports(criteria);
+	}
+
 	@GetMapping("/candidatureDetailsBy/{criteria}/{category}/and/{type}")
-    public List<CandidatureDetails> getAllCandidatureDetailsByCriteriaAndType(@PathVariable("criteria") String criteria,@PathVariable("type") String type,@PathVariable("category") String category) {
-	   return candidatureDetailsService.findCandidatureDetailsByCategoryCriteriaAndType(criteria,category,type);
-    }
+	public List<CandidatureDetails> getAllCandidatureDetailsByCriteriaAndType(@PathVariable("criteria") String criteria,
+			@PathVariable("type") String type, @PathVariable("category") String category) {
+		return candidatureDetailsService.findCandidatureDetailsByCategoryCriteriaAndType(criteria, category, type);
+	}
 
+	@PostMapping("/candidatureDetails")
+	public CandidatureDetails createEmployeeDetails(@Valid @RequestBody CandidatureDetails todo) {
+		return candidatureDetailsService.save(todo);
+	}
 
-    @PostMapping("/candidatureDetails")
-    public CandidatureDetails createEmployeeDetails(@Valid @RequestBody CandidatureDetails todo) {
-        return candidatureDetailsService.save(todo);
-    }
+	@GetMapping(value = "/candidatureDetails/{id}")
+	public ResponseEntity<CandidatureDetails> getEmployeeDetailsById(@PathVariable("id") String id) {
+		Optional<CandidatureDetails> empDetails = candidatureDetailsService.getCandidatureDetailsById(id);
+		return empDetails.map(emp -> ResponseEntity.ok().body(emp)).orElse(ResponseEntity.notFound().build());
+	}
 
-    @GetMapping(value="/candidatureDetails/{id}")
-    public ResponseEntity<CandidatureDetails> getEmployeeDetailsById(@PathVariable("id") String id) {
-        Optional<CandidatureDetails> empDetails = candidatureDetailsService.getCandidatureDetailsById(id);
-    	return empDetails.map(emp -> ResponseEntity.ok().body(emp))
-    	.orElse(ResponseEntity.notFound().build());
-    }
+	@PutMapping(value = "/candidatureDetails/{id}")
+	public ResponseEntity<CandidatureDetails> updateCandidatureData(@PathVariable("id") String id,
+			@Valid @RequestBody CandidatureDetails empDt) {
+		CandidatureDetails empDetails = candidatureDetailsService.updateCandidatureDetails(id, empDt);
+		Optional<CandidatureDetails> optEmpDet = Optional.of(empDetails);
+		return optEmpDet.map(e -> ResponseEntity.ok().body(e)).orElse(ResponseEntity.notFound().build());
+	}
 
-    @PutMapping(value="/candidatureDetails/{id}")
-    public ResponseEntity<CandidatureDetails> updateCandidatureData(@PathVariable("id") String id,
-                                           @Valid @RequestBody CandidatureDetails empDt) {
-    	CandidatureDetails empDetails = candidatureDetailsService.updateCandidatureDetails(id, empDt);
-        Optional<CandidatureDetails> optEmpDet = Optional.of(empDetails);
-        return optEmpDet.map(e -> ResponseEntity.ok().body(e))
-        		.orElse(ResponseEntity.notFound().build());
-    }
+	@DeleteMapping(value = "/candidatureDetails/{id}")
+	public List<CandidatureDetails> deleteCandidatureDetails(@PathVariable("id") String id) {
 
-    @DeleteMapping(value="/candidatureDetails/{id}")
-    public ResponseEntity<?> deleteCandidatureDetails(@PathVariable("id") String id) {
-        try {
-        	candidatureDetailsService.deleteCandidatureDetails(id);
-            return ResponseEntity.ok().build();
-        }catch(Exception e) {
-        	return ResponseEntity.notFound().build();
-        }
-         
-    }
+		candidatureDetailsService.deleteCandidatureDetails(id);
+		return candidatureDetailsService.findAll();
+
+	}
+
+	@PostMapping("/candidatureDetails/delete")
+	public List<CandidatureDetails> deleteCandidate(List<CandidatureDetails> candidatureDetails) {
+		return candidatureDetailsService.deleteCandidate(candidatureDetails);
+	}
+
+	@Autowired
+	private GeneratePdfReport generatePdfReport;
+
+	public ResponseEntity<InputStreamResource> candidatureDetailsReport() {
+
 	
+
+		generatePdfReport.generateReport();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Disposition", "inline; filename=CandidatureDetailsReport.pdf");
+
+		return null;
+	}
+
 }

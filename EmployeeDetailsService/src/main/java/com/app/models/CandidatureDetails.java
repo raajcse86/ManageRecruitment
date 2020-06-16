@@ -314,6 +314,28 @@ public class CandidatureDetails {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "CandidatureDetails [id=" + id + ", roleOfResponsibilities=" + roleOfResponsibilities
+				+ ", candidateName=" + candidateName + ", contactNo=" + contactNo + ", emailId=" + emailId
+				+ ", totalExperience=" + totalExperience + ", relevantExperience=" + relevantExperience
+				+ ", noticePeriod=" + noticePeriod + ", ctc=" + ctc + ", expectedCTC=" + expectedCTC
+				+ ", currentLocation=" + currentLocation + ", preferredLocation=" + preferredLocation
+				+ ", positionLocation=" + positionLocation + ", modeOfHiring=" + modeOfHiring + ", source=" + source
+				+ ", profileSharedDate=" + profileSharedDate + ", screeningStatus=" + screeningStatus
+				+ ", screeningDate=" + screeningDate + ", screeningDoneBy=" + screeningDoneBy + ", firstRoundStatus="
+				+ firstRoundStatus + ", firstRoundDate=" + firstRoundDate + ", firstRoundTakenBy=" + firstRoundTakenBy
+				+ ", secondRoundStatus=" + secondRoundStatus + ", secondRoundDate=" + secondRoundDate
+				+ ", secondRoundTakenBy=" + secondRoundTakenBy + ", finalRoundStatus=" + finalRoundStatus
+				+ ", finalRoundDate=" + finalRoundDate + ", finalRoundTakenBy=" + finalRoundTakenBy
+				+ ", hrOrPnStageRound=" + hrOrPnStageRound + ", hrOrPnStageStatus=" + hrOrPnStageStatus
+				+ ", hrOrPnStageDate=" + hrOrPnStageDate + ", finalStatus=" + finalStatus + ", status=" + status
+				+ ", description=" + description + ", actionPending=" + actionPending + ", client=" + client
+				+ ", profileStatus=" + profileStatus + ", statusUpdatedDate=" + statusUpdatedDate
+				+ ", expectedJoiningDate=" + expectedJoiningDate + ", finalTechSelectionDate=" + finalTechSelectionDate
+				+ "]";
+	}
+	
 	
 	
 }
